@@ -16,17 +16,67 @@
 
 #include "header.h"
 
+void  display_name(void)
+{
+    display.setRotation(1);
+    display.setFont(&FreeSansBold24pt7b);
+    display.setTextColor(GxEPD_BLACK);
+    int16_t tbx, tby; uint16_t tbw, tbh;
+    //tbx == text boundary x (top left corner); tby == text boundary y (top left corner); tbw == text boundary width; tbx == text boundary hight; 
+    display.getTextBounds(g_display_name, 0, 0, &tbx, &tby, &tbw, &tbh);
+    // center bounding box by transposition of origin:
+    uint16_t x = ((display.width() - tbw) / 2) - tbx;
+    uint16_t y = ((display.height() - tbh) / 2) - tby;
+    display.setFullWindow();
+    display.firstPage();
+    do
+    {
+        display.fillScreen(GxEPD_WHITE);
+        display.setCursor(x, y);
+        display.print(g_display_name);
+    }
+    while (display.nextPage());
+}
+
+void  display_bitmaps(void)
+{
+    display.setFullWindow();
+    const unsigned char* bitmaps[] = {name_bitmap_1, name_bitmap_2};
+    if (display.epd2.panel == GxEPD2::GDEH029A1)
+    {
+        bool m = display.mirror(true);
+        for (uint16_t i = 0; i < sizeof(bitmaps) / sizeof(char*); i++)
+        {
+            display.firstPage();
+            do
+            {
+                display.fillScreen(GxEPD_WHITE);
+                display.drawInvertedBitmap(0, 0, bitmaps[i], display.epd2.WIDTH, display.epd2.HEIGHT, GxEPD_BLACK);
+            }
+            while (display.nextPage());
+            delay(2000);
+        }
+        display.mirror(m);
+    }
+}
+
 void  setup(void)
 {
     #ifdef DEBUG
         Serial.begin(115200);
     #endif
     DEBUG_PRINTF("\n\n\nDEVICE START\n\n", "");
-    adc1_config_width(ADC_WIDTH_12Bit);
-    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_0db);
+    mySPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
+    //adc1_config_width(ADC_WIDTH_12Bit);
+    //adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_0db);
     esp_sleep_enable_timer_wakeup(g_for_this_long);
-    esp_task_wdt_init(WD_TIMEOUT, true);                                      // watchdog
-    ft_spiffs_init();
+    //esp_task_wdt_init(WD_TIMEOUT, true);                                      // watchdog
+    display.init(115200, true, 50, false);
+    display_name();
+    delay(10000);
+    display_bitmaps();
+    delay(10000);
+    display.hibernate();
     WiFi.persistent(true);                                                    // Save WiFi configuration in flash - optional
     WiFi.mode(WIFI_STA);
     WiFi.hostname("IoT-Name-Badge");
@@ -34,8 +84,11 @@ void  setup(void)
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED) 
     {
-        ft_battery_notification();
-        ft_check_incomming_messages(WAIT_FOR_MESSAGES_LIMIT);
+        //ft_battery_notification();
+        ft_ota_mode(CHAT_ID);
+        int i = WAIT_FOR_OTA_LIMIT;
+        while (i--)
+            delay (5000);
     }
     ft_go_to_sleep();
 }
