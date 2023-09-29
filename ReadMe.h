@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/09/27 18:14:16                                ###    ###   ###     ###         */
+/*   Updated: 2023/09/29 09:41:38                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /*   This file contains only notes.                                                               */
@@ -47,9 +47,11 @@
 
       Future development:
 
-
       
-      The project is based on Brian Lough's Universal Telegram Bot Library:
+      The project is based on Jean-Marc Zingg's GxEPD2 library for E-paper displays:
+      https://github.com/ZinggJM/GxEPD2
+      
+      The Telegram-related functionality is possible thanks to the Universal Telegram Bot library:
       https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 
       The OTA functionality added using AsyncElegantOTA as well as ESPAsyncWebServer libraries:
