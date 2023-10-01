@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/09/29 09:41:38                                ###    ###   ###     ###         */
+/*   Updated: 2023/10/01 17:41:38                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /*   This file contains only notes.                                                               */
@@ -15,37 +15,28 @@
   
           ABOUT THE PROJECT
 
-
-      
-      How it works:
-      
+      E-paper electronic badge that can be updated from your Telegram chat.
+      The project is currently under construction and yet requires a lot of fixing and polishing.
 
       Features:
 
           - multiple Wi-Fi enabled — every program cycle the Tracker tries to connect to all known
             Wi-Fi networks instead of just one of them;
-          - battery status notifications — low battery charge will not go unnoticed by Users, since
-            the Tracker can ask them to charge it via Telegram chat;
           - user commands — Users can control some functionality of the Tracker by sending it commands
-            via Telegram chat; e.g. add new locations to track right from the Telegram chat and it
-            will be stored in the microcontroller memory, your ESP32 will automatically use it next
-            time it wakes up — no hardcoding necessary;
+            via Telegram chat;
           - OTA update — no need to take the Tracker out from wherever you put it to update it! Simply
             open the Telegram chat, command the Tracker to start updating and it will send you a link 
             to open with your web-browser and to drop a binary file with new firmware there.
       
-      What applications it can have:
-      
 
       The IoT Name Badge hardware:
       
-      - ESP32 module;
+      - ESP32–C3–01M module;
+      - WeAct 2.9'' E-paper black/white display;
       - LiPol Battery, *230mAh, 3.7V   
       * charge-measuring function in other.h uses capacity-specific constants, hence the 230mAh capacity
         is important. To use batteries with different capacities, the constants need to be recalculated,
         otherwise the readings will not be precise. See the instructions at the bottom of the page.
-
-      Future development:
 
       
       The project is based on Jean-Marc Zingg's GxEPD2 library for E-paper displays:
@@ -67,16 +58,14 @@
       #define BOTtoken      "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     // Telegram Bot Token
       #define CHAT_ID       "-xxxxxxxxxxxxx"                                     // Telegram chat ID
 
-      #define OTA_PASSWORD  1234
-
-      #define BACKUP_SSID1         "home_wifi_name"
-      #define BACKUP_PASSWORD1     "home_wifi_password"
+      #define SSID1         "home_wifi_name"
+      #define PASSWORD1     "home_wifi_password"
     
-      #define BACKUP_SSID2         "office_wifi_name"
-      #define BACKUP_PASSWORD2     "office_wifi_password"
+      #define SSID2         "office_wifi_name"
+      #define PASSWORD2     "office_wifi_password"
     
-      #define BACKUP_SSID3         "friends_wifi_name"
-      #define BACKUP_PASSWORD3     "friends_wifi_password"
+      #define SSID3         "iphone_wifi_name"
+      #define PASSWORD3     "iphone_wifi_password"
      
    
   ***********************************************************************************************
