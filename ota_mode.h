@@ -59,7 +59,7 @@ short  ft_ota_mode(String chat_id)
     server.begin();
     DEBUG_PRINTF("HTTP server started.\nConnect to the stated Wi-Fi network and proceed to the link\n\n", "");
     DEBUG_PRINTS("http://%d.%d.%d.%d/update\n\n\n", ip[0], ip[1], ip[2], ip[3]);
-    message = "OTA mode activated. \n\nConnected to\n" + String(ssid);
+    message = "OTA mode activated. Version " + String(SOFTWARE_VERSION) + "\n\nConnected to\n" + String(ssid);
     message += "\nAssigned IP\n" + String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
     message += "\n\nConnect to the stated Wi-Fi network and go to the link\nhttp://";
     message += String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]) + "/update";

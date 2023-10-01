@@ -16,7 +16,7 @@
 
 #include "header.h"
 
-void  display_name(void)
+void  display_name_with_font(void)
 {
     display.setRotation(1);
     display.setFont(&FreeSansBold24pt7b);
@@ -38,26 +38,25 @@ void  display_name(void)
     while (display.nextPage());
 }
 
+void  display_name_no_font(void)
+{
+    display.fillScreen(GxEPD_WHITE);
+    display.setTextColor(GxEPD_BLACK);
+    display.setTextSize(1);
+    display.setCursor(0, 127);
+    display.println(g_display_name);
+    display.display();
+}
+
 void  display_bitmaps(void)
 {
-    display.setFullWindow();
-    const unsigned char* bitmaps[] = {name_bitmap_1, name_bitmap_2};
-    if (display.epd2.panel == GxEPD2::GDEH029A1)
-    {
-        bool m = display.mirror(true);
-        for (uint16_t i = 0; i < sizeof(bitmaps) / sizeof(char*); i++)
-        {
-            display.firstPage();
-            do
-            {
-                display.fillScreen(GxEPD_WHITE);
-                display.drawInvertedBitmap(0, 0, bitmaps[i], display.epd2.WIDTH, display.epd2.HEIGHT, GxEPD_BLACK);
-            }
-            while (display.nextPage());
-            delay(2000);
-        }
-        display.mirror(m);
-    }
+    display.drawBitmap(0, 0, name_bitmap_1, 296, 128, GxEPD_BLACK);
+    display.display();
+    delay(10000);
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    display.drawBitmap(0, 0, name_bitmap_2, 296, 128, GxEPD_BLACK);
+    display.display();
 }
 
 void  setup(void)
@@ -66,17 +65,38 @@ void  setup(void)
         Serial.begin(115200);
     #endif
     DEBUG_PRINTF("\n\n\nDEVICE START\n\n", "");
-    mySPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
+    SPI.end();
+    SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
     //adc1_config_width(ADC_WIDTH_12Bit);
     //adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_0db);
     esp_sleep_enable_timer_wakeup(g_for_this_long);
     //esp_task_wdt_init(WD_TIMEOUT, true);                                      // watchdog
-    display.init(115200, true, 50, false);
-    display_name();
+    display.init(115200);
+    
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    delay(5000);
+    
+    display_name_with_font();
+    
     delay(10000);
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    
+    display_name_no_font();
+    
+    delay(10000);
+    
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    
     display_bitmaps();
+    
     delay(10000);
-    display.hibernate();
+    
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    
     WiFi.persistent(true);                                                    // Save WiFi configuration in flash - optional
     WiFi.mode(WIFI_STA);
     WiFi.hostname("IoT-Name-Badge");
