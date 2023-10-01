@@ -8,6 +8,7 @@ credentials.*
 
 # This project unique files and folders
 esp32c3.svd
+esp32.svd
 debug.cfg
 debug_custom.json
 GxEPD2_ESP32_Working_Example
