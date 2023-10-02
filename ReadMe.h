@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/10/01 17:41:38                                ###    ###   ###     ###         */
+/*   Updated: 2023/10/02 09:05:38                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /*   This file contains only notes.                                                               */
@@ -58,15 +58,16 @@
       #define BOTtoken      "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     // Telegram Bot Token
       #define CHAT_ID       "-xxxxxxxxxxxxx"                                     // Telegram chat ID
 
-      #define SSID1         "home_wifi_name"
-      #define PASSWORD1     "home_wifi_password"
+      #define HOME_SSID             "home_wifi_name"
+      #define HOME_PASSWORD         "home_wifi_password"
     
-      #define SSID2         "office_wifi_name"
-      #define PASSWORD2     "office_wifi_password"
+      #define UNIVERSITY_SSID       "uni_wifi_name"
+      #define UNIVERSITY_PASSWORD   "uni_wifi_password"
     
-      #define SSID3         "iphone_wifi_name"
-      #define PASSWORD3     "iphone_wifi_password"
-     
+      #define OFFICE_SSID           "office_wifi_name"
+      #define OFFICE_PASSWORD       "office_wifi_password"
+
+
    
   ***********************************************************************************************
 

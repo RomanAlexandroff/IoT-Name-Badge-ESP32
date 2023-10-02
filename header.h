@@ -21,7 +21,6 @@
 #include <WiFiMulti.h>
 #include <Wire.h>
 #include <GxEPD2_BW.h>
-#include <GxEPD2_3C.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
 #include <stdio.h>
@@ -37,9 +36,9 @@
 #include "bitmap_library.h"
 #include "credentials.h"
 
-#define SOFTWARE_VERSION        0.14
+#define SOFTWARE_VERSION        0.15
 #define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
-#define DEBUG                                                         // comment out this line to turn off Serial output
+//#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
   #define DEBUG_PRINTF(x, y) Serial.printf(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t) Serial.printf(q, w, e, r, t)
@@ -51,7 +50,7 @@
 #define CONNECT_TIMEOUT         3000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.
 #define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
-#define SLEEP_DURATION          60000000ULL                           // in microseconds (60000000 == 1 minute; 3600000000 == 1 hour)
+#define SLEEP_DURATION          30000000ul                            // in microseconds (60000000 == 1 minute; 3600000000 == 1 hour)
 #define SPI_SCK_PIN             6                                     // also known as SCL pin
 #define SPI_MISO_PIN            -1                                    // NOT USED IN THIS PROJECT
 #define SPI_MOSI_PIN            7                                     // also known as SDA pin, as SPI_D pin or as DIN pin
@@ -68,8 +67,6 @@
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
 GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> display(GxEPD2_DRIVER_CLASS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
 
-unsigned int        g_for_this_long = SLEEP_DURATION;       // setting Deep Sleep default length
-
 WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
@@ -78,6 +75,7 @@ AsyncWebServer server(80);
 #include "other.h"
 #include "ota_mode.h"
 #include "wifi_list.h"
+#include "display_handling.h"
 #include "check_incomming_messages.h"
 
 void    IRAM_ATTR display_text_with_font(String output);
@@ -85,6 +83,7 @@ void    IRAM_ATTR display_text_no_font(String output);
 void    IRAM_ATTR display_bitmap(const unsigned char* output);
 short   IRAM_ATTR ft_new_messages(short numNewMessages);
 void    IRAM_ATTR ft_check_incomming_messages(short cycles);
+short   IRAM_ATTR shall_I_start(void);
 void    IRAM_ATTR ft_wifi_list(void);
 short   ft_ota_mode(String chat_id);
 short   ft_battery_notification(void);

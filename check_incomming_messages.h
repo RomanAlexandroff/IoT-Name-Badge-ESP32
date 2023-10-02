@@ -16,43 +16,43 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-void  display_text_with_font(String output)
+short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
 {
-    display.setRotation(1);
-    display.setFont(&FreeSansBold24pt7b);
-    display.setTextColor(GxEPD_BLACK);
-    int16_t tbx, tby; uint16_t tbw, tbh;
-    //tbx == text boundary x (top left corner); tby == text boundary y (top left corner); tbw == text boundary width; tbx == text boundary hight; 
-    display.getTextBounds(output, 0, 0, &tbx, &tby, &tbw, &tbh);
-    // center bounding box by transposition of origin:
-    uint16_t x = ((display.width() - tbw) / 2) - tbx;
-    uint16_t y = ((display.height() - tbh) / 2) - tby;
-    display.setFullWindow();
-    display.firstPage();
-    do
+    short       cycles;
+    String      message;
+
+    #ifdef PRIVATE
+    if (chat_id != CHAT_ID)
     {
-        display.fillScreen(GxEPD_WHITE);
-        display.setCursor(x, y);
-        display.print(output);
+        cycles = 0;
+        bot.sendMessage(chat_id, "UNAUTHORIZED. ACCESS DENIED.\nThe device is unaccessable from this chat.\n\nhttps://www.youtube.com/watch?v=XV25MrouozE", "");
+        return (cycles);
     }
-    while (display.nextPage());
-}
-
-void  display_text_no_font(String output)
-{
-    display.fillScreen(GxEPD_WHITE);
-    display.setTextColor(GxEPD_BLACK);
-    display.setTextSize(1);
-    display.setCursor(0, 127);
-    display.println(output);
-    display.display();
-}
-
-void  display_bitmap(const unsigned char* output)
-{
-    display.fillScreen(GxEPD_WHITE);
-    display.drawBitmap(0, 0, output, 296, 128, GxEPD_BLACK);
-    display.display();
+    #endif 
+    if (text == ("/" + String(OTA_PASSWORD)) || text == ("/ota " + String(OTA_PASSWORD)))
+    {
+        bot.sendMessage(chat_id, "Password accepted", "");
+        cycles = ft_ota_mode(chat_id);
+        return (cycles);
+    }
+    else if (text == "/off")
+    {
+        bot.sendMessage(chat_id, "Switching off!", "");
+        cycles = WAIT_FOR_MESSAGES_LIMIT;
+        return (cycles);
+    }
+    else
+    {
+        cycles = 0;
+        message = text;
+        message.remove(0, 1);
+        display_text_with_font(message);
+        text.clear();
+        text = "Your badge now says: \"" + message + "\"";
+        bot.sendMessage(chat_id, text, "");
+        return (cycles);
+    }
+    return (cycles);
 }
 
 short ft_new_messages(short numNewMessages)                                       // function to handle what happens when you receive new messages
@@ -60,7 +60,6 @@ short ft_new_messages(short numNewMessages)                                     
     short   cycles;
     String  chat_id;
     String  text;
-    String  output;
     String  from_name;
 
     DEBUG_PRINTF("\nHandling new messages\n", "");
@@ -70,16 +69,10 @@ short ft_new_messages(short numNewMessages)                                     
         DEBUG_PRINTF("Handling loop iterations: i = %d\n", i);
         chat_id = String(bot.messages[i].chat_id);
         text = bot.messages[i].text;
-        output = text;
-        output.remove(0, 1);
         from_name = bot.messages[i].from_name;
         DEBUG_PRINTF("%s says: ", from_name.c_str());
-        DEBUG_PRINTF("%s\n\n", output.c_str());
-        display_text_with_font(output);
-        text.clear();
-        text = "Your badge now says: \"" + output + "\"";
-        bot.sendMessage(chat_id, text, "");
-        cycles = 0;
+        DEBUG_PRINTF("%s\n\n", text.c_str());
+        cycles = ft_answer_engine(chat_id, text);
     }
     return (cycles);
 }
@@ -91,7 +84,7 @@ void  ft_check_incomming_messages(short cycles)
     while (cycles <= WAIT_FOR_MESSAGES_LIMIT)
     {
         DEBUG_PRINTF("Waiting for incomming commands from Telegram chat. Waiting loop cycles: %d\n", cycles);       
-        numNewMessages = bot.getUpdates(bot.last_message_received + 1);             // check how many new messages in queue
+        numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         while (numNewMessages)
         {
             cycles = ft_new_messages(numNewMessages);

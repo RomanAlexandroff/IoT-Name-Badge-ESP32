@@ -15,19 +15,42 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+short IRAM_ATTR shall_I_start(void)
+{
+    int i;
+    int quantity;
+
+    i = 0;
+    DEBUG_PRINTF("Starting WiFi scan.../n", "");
+    WiFi.mode(WIFI_STA);
+    quantity = WiFi.scanNetworks(false, true);
+    if (quantity > 0)
+    {
+        DEBUG_PRINTF("%d networks found\n", quantity);
+        while (i < quantity)
+        {
+            if (WiFi.SSID(i) == OFFICE_SSID)
+                return (1);
+            if (WiFi.SSID(i) == UNIVERSITY_SSID)
+                return (2);
+            if (WiFi.SSID(i) == HOME_SSID)
+                return (3);
+            i++;
+        }
+    }
+    else if (quantity == 0)
+        DEBUG_PRINTF("No networks found\n", "");
+    else
+        DEBUG_PRINTF("WiFi scan error %d", quantity);
+    display.fillScreen(GxEPD_WHITE);
+    display.display();
+    return (0);
+}
+
 void  IRAM_ATTR ft_wifi_list(void)
 {
-    wifiMulti.addAP(SSID1, PASSWORD1);
-    wifiMulti.addAP(SSID2, PASSWORD2);
-    wifiMulti.addAP(SSID3, PASSWORD3);
-    wifiMulti.addAP(SSID4, PASSWORD4);
-    wifiMulti.addAP(SSID5, PASSWORD5);
-    wifiMulti.addAP(SSID6, PASSWORD6);
-    wifiMulti.addAP(SSID7, PASSWORD7);
-    wifiMulti.addAP(SSID8, PASSWORD8);
-    wifiMulti.addAP(SSID9, PASSWORD9);
-    wifiMulti.addAP(SSID10, PASSWORD10);
-    wifiMulti.addAP(SSID11, PASSWORD11);
-    esp_task_wdt_reset();
+    wifiMulti.addAP(HOME_SSID, HOME_PASSWORD);
+    wifiMulti.addAP(UNIVERSITY_SSID, UNIVERSITY_PASSWORD);
+    wifiMulti.addAP(OFFICE_SSID, OFFICE_PASSWORD);
 }
  

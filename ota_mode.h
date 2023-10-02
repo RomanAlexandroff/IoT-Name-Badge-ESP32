@@ -18,7 +18,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-short  ft_ota_mode(String chat_id) 
+short ft_ota_mode(String chat_id) 
 {
     String      ssid;
     IPAddress   ip;
