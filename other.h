@@ -19,7 +19,7 @@ void  ft_go_to_sleep(void)
     DEBUG_PRINTF("\nGoing to sleep for %d minute(s)\n", (int(SLEEP_DURATION) / 60000000));
     DEBUG_PRINTF("The device was running for %d second(s) this time\n", (millis() / 1000));
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
-    display.hibernate();
+    //display.hibernate();
     esp_deep_sleep_start();
 }
 

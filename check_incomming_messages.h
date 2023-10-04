@@ -46,7 +46,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
         cycles = 0;
         message = text;
         message.remove(0, 1);
-        display_text_with_font(message);
+        display_animated_text_with_font(message);
         text.clear();
         text = "Your badge now says: \"" + message + "\"";
         bot.sendMessage(chat_id, text, "");
