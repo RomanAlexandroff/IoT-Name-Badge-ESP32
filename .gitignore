@@ -12,6 +12,7 @@ esp32.svd
 debug.cfg
 debug_custom.json
 GxEPD2_ESP32_Working_Example
+Graphical Materials
 
 # Prerequisites
 *.d
