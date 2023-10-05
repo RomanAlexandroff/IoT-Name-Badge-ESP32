@@ -50,7 +50,7 @@ void  display_animated_text_with_font(String output)
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(x, y);
         display.print(output);
-        x -= 5; // Adjust the value to control the speed of movement
+        x -= 25; // Adjust the value to control the speed of movement
         if (x + tbw < 0)
             x = display.width();
     } while (display.nextPage());
@@ -89,7 +89,7 @@ void  display_animated_bitmap(const unsigned char* output)
         display.fillScreen(GxEPD_WHITE);
         display.drawBitmap(x, 0, output, 296, 128, GxEPD_BLACK);
         display.nextPage();
-        x -= 5;
+        x -= 25;
     }
 }
  
