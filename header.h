@@ -23,6 +23,7 @@
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
+#include <Fonts/FreeMonoBold9pt7b.h>
 #include <stdio.h>
 #include <AsyncTCP.h>                                                 // OTA
 #include <ESPAsyncWebServer.h>                                        // OTA
@@ -36,7 +37,7 @@
 #include "bitmap_library.h"
 #include "credentials.h"
 
-#define SOFTWARE_VERSION        0.15
+#define SOFTWARE_VERSION        0.16
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 //#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -67,15 +68,18 @@ WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 AsyncWebServer server(80);
 
+#include "display_handling.h"
 #include "other.h"
 #include "ota_mode.h"
 #include "wifi_list.h"
-#include "display_handling.h"
 #include "check_incomming_messages.h"
 
-void    IRAM_ATTR display_text_with_font(String output);
-void    IRAM_ATTR display_text_no_font(String output);
 void    IRAM_ATTR display_bitmap(const unsigned char* output);
+void    IRAM_ATTR display_animated_text_with_font(String output);
+void    IRAM_ATTR display_refresh(void);
+//void    IRAM_ATTR display_text_with_font(String output);
+//void    IRAM_ATTR display_text_no_font(String output);
+//void    IRAM_ATTR display_bitmap_unsafe(const unsigned char* output);
 short   IRAM_ATTR ft_new_messages(short numNewMessages);
 void    IRAM_ATTR ft_check_incomming_messages(short cycles);
 short   IRAM_ATTR shall_I_start(void);

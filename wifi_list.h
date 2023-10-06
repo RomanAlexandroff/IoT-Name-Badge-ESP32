@@ -42,9 +42,9 @@ short IRAM_ATTR shall_I_start(void)
         DEBUG_PRINTF("No networks found\n", "");
     else
         DEBUG_PRINTF("WiFi scan error %d", quantity);
-    display.fillScreen(GxEPD_WHITE);
-    display.display();
+    display_refresh();
     return (0);
+    ft_go_to_sleep();
 }
 
 void  IRAM_ATTR ft_wifi_list(void)
