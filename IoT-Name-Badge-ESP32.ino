@@ -41,8 +41,8 @@
         - if unsuccessfull, continue with the slides,
         - if successful, check incomming messages in Telegram chat,
             - if no messages, continue with the slides,
-            - if messages to show, show the message for 10 sec, then continue with the slides,
- */
+            - if messages to show, show the message for 10 sec, then continue with the slides.
+*/
 
 void  setup(void)
 {
@@ -53,14 +53,15 @@ void  setup(void)
     #endif
     DEBUG_PRINTF("\n\n\nDEVICE START\n\n", "");
     esp_sleep_enable_timer_wakeup(SLEEP_DURATION);
-    mode = shall_I_start();
-    if (!mode)
-        ft_go_to_sleep();
     SPI.end();
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
-    display.init(115200);
+    display.init(115200, true, 50, false);
+    mode = shall_I_start();
+    if (!mode)
+        ft_go_to_sleep();    
     display.setRotation(1);
-    WiFi.persistent(true);                                                    // Save WiFi configuration in flash - optional
+    display_refresh();
+    WiFi.persistent(true);
     WiFi.mode(WIFI_STA);
     WiFi.hostname("IoT-Name-Badge");
     client.setCACert(TELEGRAM_CERTIFICATE_ROOT);
