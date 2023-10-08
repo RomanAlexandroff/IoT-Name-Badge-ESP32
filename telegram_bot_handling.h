@@ -24,7 +24,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     #ifdef PRIVATE
     if (chat_id != CHAT_ID)
     {
-        cycles = 0;
+        cycles = WAIT_FOR_MESSAGES_LIMIT;
         bot.sendMessage(chat_id, "UNAUTHORIZED. ACCESS DENIED.\nThe device is unaccessable from this chat.\n\nhttps://www.youtube.com/watch?v=XV25MrouozE", "");
         return (cycles);
     }
@@ -43,12 +43,12 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     }
     else
     {
-        cycles = 0;
+        cycles = WAIT_FOR_MESSAGES_LIMIT;
         message = text;
         message.remove(0, 1);
         display_animated_text_with_font(message);
         text.clear();
-        text = "Your badge now says: \"" + message + "\"";
+        text = "Roman's badge now says:\n\"" + message + "\"";
         bot.sendMessage(chat_id, text, "");
         return (cycles);
     }
@@ -62,6 +62,7 @@ short ft_new_messages(short numNewMessages)                                     
     String  text;
     String  from_name;
 
+    cycles = WAIT_FOR_MESSAGES_LIMIT;
     DEBUG_PRINTF("\nHandling new messages\n", "");
     DEBUG_PRINTF("Number of messages to handle: %d\n", numNewMessages);
     for (short i = 0; i < numNewMessages; i++) 
@@ -91,8 +92,18 @@ void  ft_check_incomming_messages(short cycles)
             numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         }
         if ((cycles + 25) == WAIT_FOR_MESSAGES_LIMIT)
-            bot.sendMessage(CHAT_ID, "It seems that I'm not currently needed. I'll wait for 1 more minute just in case and then go to sleep. To keep me awake, write me anything.", "");
+            bot.sendMessage(CHAT_ID, "Going to sleep in 1 minute", "");
         cycles++;
     }
+}
+
+void  telegram_bot_init(void)
+{
+    WiFi.hostname("IoT-Name-Badge");
+    WiFi.persistent(true);
+    client.setCACert(TELEGRAM_CERTIFICATE_ROOT);
+    ft_wifi_list();
+    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED) 
+        ft_check_incomming_messages(WAIT_FOR_MESSAGES_LIMIT);
 }
  

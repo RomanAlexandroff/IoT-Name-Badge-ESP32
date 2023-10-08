@@ -23,8 +23,6 @@ short ft_ota_mode(String chat_id)
     String      ssid;
     IPAddress   ip;
     String      message;
-    short       battery;
-    int         i;
 
     ssid = WiFi.SSID();
     ip = WiFi.localIP();

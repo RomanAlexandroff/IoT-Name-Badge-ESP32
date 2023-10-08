@@ -14,11 +14,12 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-void  ft_go_to_sleep(void)
+void  ft_go_to_sleep(unsigned int time_of_sleep)
 {
-    DEBUG_PRINTF("\nGoing to sleep for %d minute(s)\n", (int(SLEEP_DURATION) / 60000000));
+//    DEBUG_PRINTF("\nGoing to sleep for %d second(s)\n", (time_of_sleep / 60000000));
     DEBUG_PRINTF("The device was running for %d second(s) this time\n", (millis() / 1000));
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
+    esp_sleep_enable_timer_wakeup(time_of_sleep);
     esp_deep_sleep_start();
 }
 

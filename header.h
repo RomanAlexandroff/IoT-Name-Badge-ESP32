@@ -15,7 +15,7 @@
 #ifndef HEADER_H
 # define HEADER_H
 
-#include <Arduino.h>                                                  // OTA
+#include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <WiFiMulti.h>
@@ -23,23 +23,22 @@
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
-#include <Fonts/FreeMonoBold9pt7b.h>
 #include <stdio.h>
-#include <AsyncTCP.h>                                                 // OTA
-#include <ESPAsyncWebServer.h>                                        // OTA
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 #include <AsyncElegantOTA.h>
 #include <UniversalTelegramBot.h>
-#include <ArduinoJson.h>                                              // Telegram
-#include <SPIFFS.h>
+#include <ArduinoJson.h>
+//#include <SPIFFS.h>
 #include <driver/adc.h>
 #include "esp_adc_cal.h"
-#include <esp_task_wdt.h>
+//#include <esp_task_wdt.h>
 #include "bitmap_library.h"
 #include "credentials.h"
 
-#define SOFTWARE_VERSION        0.16
+#define SOFTWARE_VERSION        1.02
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
-//#define DEBUG                                                         // comment out this line to turn off Serial output
+#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
   #define DEBUG_PRINTF(x, y) Serial.printf(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t) Serial.printf(q, w, e, r, t)
@@ -62,32 +61,36 @@
 #define ENABLE_GxEPD2_GFX       0                                     // enable or disable GxEPD2_GFX base class
 
 GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
-
 WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 AsyncWebServer server(80);
 
+RTC_DATA_ATTR unsigned short  g_slide;
+
 #include "display_handling.h"
 #include "other.h"
 #include "ota_mode.h"
-#include "wifi_list.h"
-#include "check_incomming_messages.h"
+#include "wifi_networking.h"
+#include "telegram_bot_handling.h"
 
-void    IRAM_ATTR display_bitmap(const unsigned char* output);
-void    IRAM_ATTR display_animated_text_with_font(String output);
-void    IRAM_ATTR display_refresh(void);
-//void    IRAM_ATTR display_text_with_font(String output);
-//void    IRAM_ATTR display_text_no_font(String output);
-//void    IRAM_ATTR display_bitmap_unsafe(const unsigned char* output);
-short   IRAM_ATTR ft_new_messages(short numNewMessages);
-void    IRAM_ATTR ft_check_incomming_messages(short cycles);
-short   IRAM_ATTR shall_I_start(void);
-void    IRAM_ATTR ft_wifi_list(void);
-short   ft_ota_mode(String chat_id);
-short   ft_battery_notification(void);
-short   ft_battery_check(void);
-void    ft_go_to_sleep(void);
+void        IRAM_ATTR display_bitmap(const unsigned char* output);
+void        IRAM_ATTR display_animated_text_with_font(String output);
+inline void display_refresh(void);
+//inline void display_init(void);
+//void        IRAM_ATTR display_text_with_font(String output);
+//void        IRAM_ATTR display_text_no_font(String output);
+//void        IRAM_ATTR display_bitmap_unsafe(const unsigned char* output);
+short       IRAM_ATTR ft_new_messages(short numNewMessages);
+void        IRAM_ATTR ft_check_incomming_messages(short cycles);
+void        telegram_bot_init(void);
+inline void ft_slide_check(void);
+short       IRAM_ATTR shall_I_start(void);
+void        IRAM_ATTR ft_wifi_list(void);
+short       ft_ota_mode(String chat_id);
+short       ft_battery_notification(void);
+short       ft_battery_check(void);
+void        ft_go_to_sleep(void);
 
 #endif
  

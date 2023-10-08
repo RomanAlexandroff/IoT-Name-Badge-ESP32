@@ -115,11 +115,19 @@ void  IRAM_ATTR display_bitmap(const unsigned char* output)                     
     while (display.nextPage());
 }
 
-void  IRAM_ATTR display_refresh(void)                                            // flickers, but does NOT invert colours while running 
+inline void display_refresh(void)                                            // flickers, but does NOT invert colours while running 
 {
     display.setFullWindow();
     display.firstPage();
     display.fillScreen(GxEPD_WHITE);
     display.nextPage();
+}
+
+inline void display_init(void)
+{
+    SPI.end();
+    SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
+    display.init(115200, true, 50, false);
+    display.setRotation(1);
 }
  
