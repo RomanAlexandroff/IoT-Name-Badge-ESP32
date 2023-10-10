@@ -1,7 +1,7 @@
 /* ********************************************************************************************** */
 /*                                                                                                */
 /*   Soft  Tracker  Project  ESP32-C3                                  :::::::::        :::       */
-/*   check_incomming_messages.h                                       :+:    :+:     :+: :+:      */
+/*   telegram_bot_handling.h                                          :+:    :+:     :+: :+:      */
 /*                                                                   +:+    +:+    +:+   +:+      */
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
