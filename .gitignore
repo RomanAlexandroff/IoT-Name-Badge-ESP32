@@ -15,6 +15,9 @@ GxEPD2_ESP32_Working_Example
 Graphical Materials
 Back_up_version_when_the_display_still_worked_perfectly
 
+# macOS system files
+.DS_Store
+
 # Prerequisites
 *.d
 
