@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/09/27 18:14:16                                ###    ###   ###     ###         */
+/*   Updated: 2023/10/18 17:05:12                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /*                                                                                                */
@@ -17,9 +17,11 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
+#include <esp_wifi.h>
 #include <WiFiClientSecure.h>
 #include <WiFiMulti.h>
 #include <Wire.h>
+#define ENABLE_GxEPD2_GFX 0
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
@@ -29,14 +31,11 @@
 #include <AsyncElegantOTA.h>
 #include <UniversalTelegramBot.h>
 #include <ArduinoJson.h>
-//#include <SPIFFS.h>
 #include <driver/adc.h>
-#include "esp_adc_cal.h"
-//#include <esp_task_wdt.h>
 #include "bitmap_library.h"
 #include "credentials.h"
 
-#define SOFTWARE_VERSION        1.02
+#define SOFTWARE_VERSION        2.00
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -58,38 +57,43 @@
 #define DC_PIN                  0
 #define RST_PIN                 18                                    // also known as RES pin
 #define BUSY_PIN                19
-#define ENABLE_GxEPD2_GFX       0                                     // enable or disable GxEPD2_GFX base class
 
-GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
+#define GxEPD2_DISPLAY_CLASS GxEPD2_BW
+#define GxEPD2_DRIVER_CLASS GxEPD2_290_T94_V2
+#define GxEPD2_BW_IS_GxEPD2_BW true
+#define IS_GxEPD2_BW(x) IS_GxEPD(GxEPD2_BW_IS_, x)
+#define MAX_DISPLAY_BUFFER_SIZE 65536ul
+#define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
+GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> display(GxEPD2_DRIVER_CLASS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
+
 WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 AsyncWebServer server(80);
 
-RTC_DATA_ATTR unsigned short  g_slide;
+RTC_DATA_ATTR unsigned short  g_cycle_counter;
 
+#include "power_down_recovery.h"
 #include "display_handling.h"
 #include "other.h"
 #include "ota_mode.h"
 #include "wifi_networking.h"
 #include "telegram_bot_handling.h"
 
+void        ft_power_down_recovery(void);
 void        IRAM_ATTR display_bitmap(const unsigned char* output);
 void        IRAM_ATTR display_animated_text_with_font(String output);
 inline void display_refresh(void);
-//inline void display_init(void);
-//void        IRAM_ATTR display_text_with_font(String output);
-//void        IRAM_ATTR display_text_no_font(String output);
-//void        IRAM_ATTR display_bitmap_unsafe(const unsigned char* output);
+inline void ft_display_init(void);
 short       IRAM_ATTR ft_new_messages(short numNewMessages);
 void        IRAM_ATTR ft_check_incomming_messages(short cycles);
 void        telegram_bot_init(void);
-inline void ft_slide_check(void);
 short       IRAM_ATTR shall_I_start(void);
 void        IRAM_ATTR ft_wifi_list(void);
 short       ft_ota_mode(String chat_id);
 short       ft_battery_notification(void);
 short       ft_battery_check(void);
+void        IRAM_ATTR ft_delay(unsigned int time_in_seconds);
 void        ft_go_to_sleep(void);
 
 #endif
