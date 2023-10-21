@@ -21,23 +21,24 @@
 #include <WiFiClientSecure.h>
 #include <WiFiMulti.h>
 #include <Wire.h>
-#define ENABLE_GxEPD2_GFX 0
+//#define ENABLE_GxEPD2_GFX 0
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
 #include <stdio.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <AsyncElegantOTA.h>
+#include <ElegantOTA.h>
 #include <UniversalTelegramBot.h>
 #include <ArduinoJson.h>
+#include <esp_system.h>
 #include <driver/adc.h>
 #include "bitmap_library.h"
 #include "credentials.h"
 
-#define SOFTWARE_VERSION        2.00
+#define SOFTWARE_VERSION        2.03
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
-#define DEBUG                                                         // comment out this line to turn off Serial output
+//#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
   #define DEBUG_PRINTF(x, y) Serial.printf(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t) Serial.printf(q, w, e, r, t)
@@ -58,6 +59,7 @@
 #define RST_PIN                 18                                    // also known as RES pin
 #define BUSY_PIN                19
 
+#define ENABLE_GxEPD2_GFX 0
 #define GxEPD2_DISPLAY_CLASS GxEPD2_BW
 #define GxEPD2_DRIVER_CLASS GxEPD2_290_T94_V2
 #define GxEPD2_BW_IS_GxEPD2_BW true
@@ -72,15 +74,15 @@ UniversalTelegramBot bot(BOTtoken, client);
 AsyncWebServer server(80);
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
+RTC_DATA_ATTR bool            g_reboot;
 
-#include "power_down_recovery.h"
 #include "display_handling.h"
 #include "other.h"
 #include "ota_mode.h"
 #include "wifi_networking.h"
 #include "telegram_bot_handling.h"
+#include "power_down_recovery.h"
 
-void        ft_power_down_recovery(void);
 void        IRAM_ATTR display_bitmap(const unsigned char* output);
 void        IRAM_ATTR display_animated_text_with_font(String output);
 inline void display_refresh(void);
@@ -95,6 +97,7 @@ short       ft_battery_notification(void);
 short       ft_battery_check(void);
 void        IRAM_ATTR ft_delay(unsigned int time_in_seconds);
 void        ft_go_to_sleep(void);
+void        ft_power_down_recovery(void);
 
 #endif
  

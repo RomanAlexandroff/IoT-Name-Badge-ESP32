@@ -18,41 +18,51 @@
 
 short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
 {
-    short       cycles;
     String      message;
 
     #ifdef PRIVATE
     if (chat_id != CHAT_ID)
     {
-        cycles = WAIT_FOR_MESSAGES_LIMIT;
         bot.sendMessage(chat_id, "UNAUTHORIZED. ACCESS DENIED.\nThe device is unaccessable from this chat.\n\nhttps://www.youtube.com/watch?v=XV25MrouozE", "");
-        return (cycles);
+        return (WAIT_FOR_MESSAGES_LIMIT);
     }
-    #endif 
+    #endif
+    if (text == "/status")
+    {
+        message = "Connected to " + String(WiFi.SSID());   
+        message += ". Signal strength is " + String(WiFi.RSSI());
+        message += " dBm. Battery is " + String(ft_battery_check()) + "% charged, ";
+        message += "software version " + String(SOFTWARE_VERSION);
+        bot.sendMessage(chat_id, message, "Markdown");
+        return (0);
+    } 
     if (text == ("/" + String(OTA_PASSWORD)) || text == ("/ota " + String(OTA_PASSWORD)))
     {
         bot.sendMessage(chat_id, "Password accepted", "");
-        cycles = ft_ota_mode(chat_id);
-        return (cycles);
+        return (ft_ota_mode(chat_id));
+    }
+    else if (text == "/reboot")
+    {
+        bot.sendMessage(chat_id, "Rebooting!", "");
+        g_reboot = true;
+        return (WAIT_FOR_MESSAGES_LIMIT);
     }
     else if (text == "/off")
     {
         bot.sendMessage(chat_id, "Switching off!", "");
-        cycles = WAIT_FOR_MESSAGES_LIMIT;
-        return (cycles);
+        return (WAIT_FOR_MESSAGES_LIMIT);
     }
     else
     {
-        cycles = WAIT_FOR_MESSAGES_LIMIT;
         message = text;
         message.remove(0, 1);
         display_animated_text_with_font(message);
         text.clear();
         text = "Roman's badge now says:\n\"" + message + "\"";
         bot.sendMessage(chat_id, text, "");
-        return (cycles);
+        return (WAIT_FOR_MESSAGES_LIMIT);
     }
-    return (cycles);
+    return (0);
 }
 
 short ft_new_messages(short numNewMessages)                                       // function to handle what happens when you receive new messages
@@ -84,6 +94,7 @@ void  ft_check_incomming_messages(short cycles)
 
     while (cycles <= WAIT_FOR_MESSAGES_LIMIT)
     {
+        ElegantOTA.loop();
         DEBUG_PRINTF("Waiting for incomming commands from Telegram chat. Waiting loop cycles: %d\n", cycles);       
         numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         while (numNewMessages)
@@ -92,7 +103,9 @@ void  ft_check_incomming_messages(short cycles)
             numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         }
         if ((cycles + 25) == WAIT_FOR_MESSAGES_LIMIT)
-            bot.sendMessage(CHAT_ID, "Going to sleep in 1 minute", "");
+            bot.sendMessage(CHAT_ID, "Going to sleep in 1 minute. To keep me awake, write me anything", "");
+        if ((cycles + 1) == WAIT_FOR_MESSAGES_LIMIT)
+            bot.sendMessage(CHAT_ID, "Good talk! I'm off now", "");
         cycles++;
     }
 }
@@ -105,5 +118,7 @@ void  telegram_bot_init(void)
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED) 
         ft_check_incomming_messages(WAIT_FOR_MESSAGES_LIMIT);
+    if (g_reboot)
+        ft_go_to_sleep(0);
 }
  
