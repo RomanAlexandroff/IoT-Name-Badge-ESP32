@@ -46,8 +46,8 @@
       The Telegram-related functionality is possible thanks to the Universal Telegram Bot library:
       https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 
-      The OTA functionality added using AsyncElegantOTA as well as ESPAsyncWebServer libraries:
-      https://github.com/ayushsharma82/AsyncElegantOTA
+      The OTA functionality added using ElegantOTA as well as ESPAsyncWebServer libraries:
+      https://github.com/ayushsharma82/ElegantOTA
       https://github.com/me-no-dev/ESPAsyncWebServer
 
 
