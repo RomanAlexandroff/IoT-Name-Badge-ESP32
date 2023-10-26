@@ -17,20 +17,25 @@
 
 short IRAM_ATTR shall_I_start(void)
 {
-    int i;
-    int quantity;
+    RTC_DATA_ATTR static bool errase_display;
+    int                       i;
+    int                       quantity;
 
-    i = 0;
     WiFi.mode(WIFI_STA);
-    if (g_cycle_counter >= 65004)
-        g_cycle_counter = 0;
     if (g_cycle_counter % 5 != 0)                //check Wi-Fi only every 5th cycle
         return (1);
     DEBUG_PRINTF("Starting WiFi scan...\n", "");
+    WiFi.persistent(true);
     quantity = WiFi.scanNetworks(false, true);
+    i = 0;
     if (quantity <= 0)
     {
-        DEBUG_PRINTF("No networks found OR WiFi scan error #%d", quantity);
+        DEBUG_PRINTF("No networks found OR WiFi scan error #%d\n", quantity);
+        if (errase_display)
+        {
+            ft_clear_display();
+            errase_display = false;
+        }
         ft_go_to_sleep(SLEEP_DURATION);
     }
     else
@@ -38,23 +43,29 @@ short IRAM_ATTR shall_I_start(void)
         DEBUG_PRINTF("%d networks found\n", quantity);
         while (i < quantity)
         {
-            if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == HOME_SSID)
+            if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID)
             {
                 DEBUG_PRINTF("Familiar network detected. Initiating the slideshow\n", "");
+                errase_display = true;
                 return (1);
             }
             i++;
         }
     }
-    display_refresh();
+    if (errase_display)
+    {
+        ft_clear_display();
+        errase_display = false;
+    }
     ft_go_to_sleep(SLEEP_DURATION);
     return (0);
 }
-
+/*
 void  IRAM_ATTR ft_wifi_list(void)
 {
+    wifiMulti.addAP(BACKUP_SSID, BACKUP_PASSWORD);
     wifiMulti.addAP(HOME_SSID, HOME_PASSWORD);
     wifiMulti.addAP(UNIVERSITY_SSID, UNIVERSITY_PASSWORD);
     wifiMulti.addAP(OFFICE_SSID, OFFICE_PASSWORD);
 }
- 
+ */

@@ -35,13 +35,13 @@ void  IRAM_ATTR display_animated_text_with_font(String output)                 /
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(x, y);
         display.print(output);
-        x -= 25;                            // this value here controls the speed of movement
+        x -= 25;                                                               // this value here controls the speed of movement
         if (x + tbw < 0)
             x = display.width();
     } while (display.nextPage());
 }
 
-void  IRAM_ATTR display_bitmap_with_refresh(const unsigned char* output)                     // Flickers, does NOT invert colours while running 
+void  IRAM_ATTR display_bitmap_with_refresh(const unsigned char* output)       // flickers, does NOT invert colours while running 
 {
     display.setRotation(1);
     display.setFullWindow();
@@ -67,17 +67,10 @@ void  IRAM_ATTR display_bitmap(const unsigned char* output)                     
     while (display.nextPage());
 }
 
-inline void display_refresh(void)                                            // flickers, but does NOT invert colours while running 
+inline void ft_clear_display(void)                                               // flickers
 {
-    display.setRotation(1);
-    display.setFullWindow();
-    display.firstPage();
-    do
-    {
-        display.fillScreen(GxEPD_WHITE);
-        display.setCursor(0, 0);
-    }
-    while (display.nextPage());
+    display.clearScreen();
+    display.writeScreenBuffer();
 }
 
 
@@ -86,6 +79,7 @@ inline void ft_display_init(void)
     SPI.end();
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
     display.init(115200);
+    display.powerOff();
 }
 
 

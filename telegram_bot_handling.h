@@ -30,8 +30,8 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     if (text == "/status")
     {
         message = "Connected to " + String(WiFi.SSID());   
-        message += ". Signal strength is " + String(WiFi.RSSI());
-        message += " dBm. Battery is " + String(ft_battery_check()) + "% charged, ";
+        message += ". Signal strength is " + String(WiFi.RSSI()) + " dBm. ";
+//        message += "Battery is " + String(ft_battery_check()) + "% charged, ";
         message += "software version " + String(SOFTWARE_VERSION);
         bot.sendMessage(chat_id, message, "Markdown");
         return (0);
@@ -103,22 +103,45 @@ void  ft_check_incomming_messages(short cycles)
             numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         }
         if ((cycles + 25) == WAIT_FOR_MESSAGES_LIMIT)
-            bot.sendMessage(CHAT_ID, "Going to sleep in 1 minute. To keep me awake, write me anything", "");
+            bot.sendMessage(CHAT_ID, "Going to sleep in 1 minute. To keep me awake, write me any command", "");
         if ((cycles + 1) == WAIT_FOR_MESSAGES_LIMIT)
             bot.sendMessage(CHAT_ID, "Good talk! I'm off now", "");
-        cycles++;
+        cycles++; 
     }
 }
 
-void  telegram_bot_init(void)
+void  telegram_bot_init(short cycles)
 {
-    WiFi.hostname("IoT-Name-Badge");
-    WiFi.persistent(true);
     client.setCACert(TELEGRAM_CERTIFICATE_ROOT);
     ft_wifi_list();
-    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED) 
-        ft_check_incomming_messages(WAIT_FOR_MESSAGES_LIMIT);
+    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
+    {
+        if (g_power_on)
+        {
+            bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
+            g_power_on = false;
+        }
+        if (g_reboot)
+        {
+            bot.sendMessage(CHAT_ID, ("I've successfully rebooted. Current software version " + String(SOFTWARE_VERSION)), "");
+            delay(1000);
+            bot.sendMessage(CHAT_ID, "Is there anything else I can do for you?", "");
+            cycles = 0;
+            g_reboot = false;
+        }
+        if (g_panic)
+        {
+            bot.sendMessage(CHAT_ID, "Don't panic, but my Core has just panicked!", "");
+            delay(3000);
+            bot.sendMessage(CHAT_ID, "You were trying to update me, weren't you? Well, let's try again", "");
+            delay(2000);
+            ft_check_incomming_messages(ft_ota_mode(CHAT_ID));
+            g_panic = false;
+            ft_go_to_sleep(10);
+        }
+        ft_check_incomming_messages(cycles);
+    }
     if (g_reboot)
-        ft_go_to_sleep(0);
+        ft_go_to_sleep(10);
 }
  

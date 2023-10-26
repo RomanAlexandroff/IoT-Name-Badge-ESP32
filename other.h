@@ -14,22 +14,23 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-void  ft_go_to_sleep(unsigned int time_in_microseconds)
+void  ft_go_to_sleep(unsigned int time_in_millis)
 {
     if (g_reboot)
         esp_restart();
     DEBUG_PRINTF("The device was running for %d second(s) this time\n", (millis() / 1000));
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
-    esp_sleep_enable_timer_wakeup(time_in_microseconds);
+    esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
     esp_deep_sleep_start();
 }
 
-void  IRAM_ATTR ft_delay(unsigned int time_in_seconds)
+void  IRAM_ATTR ft_delay(unsigned int time_in_millis)
 {
-    esp_sleep_enable_timer_wakeup(time_in_seconds * 1000000);
+    esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
     esp_light_sleep_start();
 }
 
+/*
 short  ft_battery_check(void)
 {
     short i;
@@ -38,7 +39,7 @@ short  ft_battery_check(void)
     i = 4;
     while (i)
     {
-        battery += ceil((adc1_get_raw(ADC1_CHANNEL_0) - 650) / 12.62);                 // see ReadMe regarding these constants
+        battery += ceil((adc1_get_raw(ADC1_CHANNEL_0) - 886) / 12.14);                 // see ReadMe regarding these constants
         i--;
     }
     battery = battery / 4;                                                             // counting average of 4 samples
@@ -68,4 +69,5 @@ short  ft_battery_notification(void)
     else
         return (WAIT_FOR_MESSAGES_LIMIT);                                         // WAIT_FOR_MESSAGES_LIMIT == check new messages only 1 time
 }
+*/
  
