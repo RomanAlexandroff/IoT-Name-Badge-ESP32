@@ -15,25 +15,29 @@
 #ifndef HEADER_H
 # define HEADER_H
 
+//#define NOT_BROWNOUT_FRIENDLY                                       // comment out this line to make your brown-out detector happy
+
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
-//#include <WiFiClientSecure.h>
-//#include <WiFiMulti.h>
 #include <Wire.h>
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
 #include <stdio.h>
-//#include <AsyncTCP.h>
-//#include <ESPAsyncWebServer.h>
-//#include <ElegantOTA.h>
-//#include <UniversalTelegramBot.h>
-//#include <ArduinoJson.h>
-//#include <esp_system.h>
-//#include <driver/adc.h>
 #include "bitmap_library.h"
 #include "credentials.h"
+#ifdef NOT_BROWNOUT_FRIENDLY
+  #include <WiFiClientSecure.h>
+  #include <WiFiMulti.h>
+  #include <AsyncTCP.h>
+  #include <ESPAsyncWebServer.h>
+  #include <ElegantOTA.h>
+  #include <UniversalTelegramBot.h>
+  #include <ArduinoJson.h>
+  #include <esp_system.h>
+  #include <driver/adc.h>
+#endif
 
 #define SOFTWARE_VERSION        2.05
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
@@ -67,10 +71,12 @@
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
 GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> display(GxEPD2_DRIVER_CLASS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
 
-//WiFiMulti wifiMulti;
-//WiFiClientSecure client;
-//UniversalTelegramBot bot(BOTtoken, client);
-//AsyncWebServer server(80);
+#ifdef NOT_BROWNOUT_FRIENDLY
+  WiFiMulti wifiMulti;
+  WiFiClientSecure client;
+  UniversalTelegramBot bot(BOTtoken, client);
+  AsyncWebServer server(80);
+#endif
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
 bool                          g_power_on;
@@ -79,23 +85,27 @@ bool                          g_panic;
 
 #include "display_handling.h"
 #include "other.h"
-//#include "ota_mode.h"
 #include "wifi_networking.h"
-//#include "telegram_bot_handling.h"
+#ifdef NOT_BROWNOUT_FRIENDLY
+  #include "ota_mode.h"
+  #include "telegram_bot_handling.h"
+#endif
 #include "power_down_recovery.h"
 
 void        IRAM_ATTR display_bitmap(const unsigned char* output);
 void        IRAM_ATTR display_animated_text_with_font(String output);
 inline void ft_clear_display(void);
 inline void ft_display_init(void);
-//short       IRAM_ATTR ft_new_messages(short numNewMessages);
-//void        IRAM_ATTR ft_check_incomming_messages(short cycles);
-//void        telegram_bot_init(short cycles);
+#ifdef NOT_BROWNOUT_FRIENDLY
+  short     IRAM_ATTR ft_new_messages(short numNewMessages);
+  void      IRAM_ATTR ft_check_incomming_messages(short cycles);
+  void      telegram_bot_init(short cycles);
+  void      IRAM_ATTR ft_wifi_list(void);
+  short     ft_ota_mode(String chat_id);
+  short     ft_battery_notification(void);
+  short     ft_battery_check(void);
+#endif
 short       IRAM_ATTR shall_I_start(void);
-//void        IRAM_ATTR ft_wifi_list(void);
-//short       ft_ota_mode(String chat_id);
-//short       ft_battery_notification(void);
-//short       ft_battery_check(void);
 void        IRAM_ATTR ft_delay(unsigned int time_in_millis);
 void        ft_go_to_sleep(unsigned int time_in_millis);
 void        ft_power_down_recovery(void);

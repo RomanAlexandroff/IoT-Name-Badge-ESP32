@@ -33,14 +33,18 @@ void  setup(void)
     ft_power_down_recovery();
     ft_display_init();
     shall_I_start();
-//    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
+    #ifdef NOT_BROWNOUT_FRIENDLY
+        telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
+    #endif
     esp_wifi_set_mode(WIFI_MODE_NULL);
     display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
     ft_delay(5000);
     display_bitmap(badge_bitmap_slide_4_github);
     ft_delay(10000);
-//    display_bitmap(badge_bitmap_slide_5_telegram);
-//    ft_delay(10000);
+    #ifdef NOT_BROWNOUT_FRIENDLY
+        display_bitmap(badge_bitmap_slide_5_telegram);
+        ft_delay(10000);
+    #endif
     display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
     g_cycle_counter++;
