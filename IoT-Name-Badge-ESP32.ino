@@ -22,7 +22,7 @@ void  setup(void)
     volatile long run_time;
     long          time_of_sleep;
 
-    cycle_length = 60000;
+    cycle_length = 40000;
     run_time = 0;
     time_of_sleep = 0;
     #ifdef DEBUG
@@ -38,12 +38,12 @@ void  setup(void)
     #endif
     esp_wifi_set_mode(WIFI_MODE_NULL);
     display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
-    ft_delay(5000);
+    ft_delay(7000);
     display_bitmap(badge_bitmap_slide_4_github);
-    ft_delay(10000);
+    ft_delay(7000);
     #ifdef NOT_BROWNOUT_FRIENDLY
         display_bitmap(badge_bitmap_slide_5_telegram);
-        ft_delay(10000);
+        ft_delay(7000);
     #endif
     display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
