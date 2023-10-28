@@ -31,10 +31,11 @@ short IRAM_ATTR shall_I_start(void)
     if (quantity <= 0)
     {
         DEBUG_PRINTF("No networks found OR WiFi scan error #%d\n", quantity);
-        if (errase_display)
+        if (errase_display || g_power_on)
         {
             ft_clear_display();
             errase_display = false;
+            g_power_on = false;
         }
         ft_go_to_sleep(SLEEP_DURATION);
     }
@@ -52,10 +53,11 @@ short IRAM_ATTR shall_I_start(void)
             i++;
         }
     }
-    if (errase_display)
+    if (errase_display || g_power_on)
     {
         ft_clear_display();
         errase_display = false;
+        g_power_on = false;
     }
     ft_go_to_sleep(SLEEP_DURATION);
     return (0);
