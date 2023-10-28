@@ -49,11 +49,10 @@
   #define DEBUG_PRINTF(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t)
 #endif
-#define WD_TIMEOUT              8000                                  // watchdog, in milliseconds (5000 == 5 seconds; 8500 — system max val)
 #define CONNECT_TIMEOUT         3000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.
 #define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
-#define SLEEP_DURATION          60000000ul                            // in microseconds (60000000 == 1 minute; 3600000000 == 1 hour)
+#define SLEEP_DURATION          60000ul                               // in milliseconds
 #define SPI_SCK_PIN             6                                     // also known as SCL pin
 #define SPI_MISO_PIN            -1                                    // NOT USED IN THIS PROJECT
 #define SPI_MOSI_PIN            7                                     // also known as SDA pin, as SPI_D pin or as DIN pin
@@ -82,6 +81,7 @@ RTC_DATA_ATTR unsigned short  g_cycle_counter;
 bool                          g_power_on;
 bool                          g_reboot;
 bool                          g_panic;
+
 
 #include "display_handling.h"
 #include "other.h"
