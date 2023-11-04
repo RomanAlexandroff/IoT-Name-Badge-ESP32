@@ -10,7 +10,7 @@ That being said, the badge is not limited to your work space only — add as man
 
 - ESP32–C3–01M Wi-Fi module: Powers the badge with its reliable Wi-Fi connectivity.
 - 2.9'' e-paper black-n-white SPI display: Delivers clear visuals and low power consumption.
-- 230mAh LiPol battery: Provides ample power for extended usage.
+- 500mAh LiPol battery: Provides ample power for extended usage. 
 
 ## How It Works
 
