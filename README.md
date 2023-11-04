@@ -47,13 +47,34 @@ Here's the lowdown on how the IoT Name Badge operates:
 
 ## Regards
 
-The project is based on Jean-Marc Zingg's GxEPD2 library for E-paper displays:
-https://github.com/ZinggJM/GxEPD2
+The project is based on Jean-Marc Zingg's [GxEPD2](https://github.com/ZinggJM/GxEPD2) library for e-paper displays.
       
-The Telegram-related functionality is possible thanks to the Universal Telegram Bot library:
-https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+The Telegram-related functionality is possible thanks to Brian Lough's [Universal Telegram Bot](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot) library.
 
-The OTA functionality added using ElegantOTA as well as ESPAsyncWebServer libraries:
-https://github.com/ayushsharma82/ElegantOTA
-https://github.com/me-no-dev/ESPAsyncWebServer
+The OTA functionality added using [ElegantOTA](https://github.com/ayushsharma82/ElegantOTA) as well as [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) libraries.
 
+
+## Example of the credentials.h File
+
+```  
+#define BOTtoken    "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Telegram Bot Token
+#define CHAT_ID     "-xxxxxxxxxxxxx"                                 // Telegram chat ID
+
+#define OTA_PASSWORD        "1234"
+
+#define SSID1               "wifi1_name"
+#define PASSWORD1           "wifi1_password"
+
+#define BACKUP_SSID1        "wifi2_name"
+#define BACKUP_PASSWORD1    "wifi2_password"
+
+#define BACKUP_SSID2        "wifi3_name"
+#define BACKUP_PASSWORD2    "wifi3_password"
+```
+ 
+## Calculating Constants for the Battery Charge Function
+
+You will need to check the following little utility:
+https://github.com/RomanAlexandroff/ESP-Battery-Charge-Utility
+      
+It was designed to be a universal solution for battery charge level detection in ESP-based projects and has all the instructions inside of it.
