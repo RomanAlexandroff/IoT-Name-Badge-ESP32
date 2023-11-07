@@ -31,7 +31,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     {
         message = "Connected to " + String(WiFi.SSID());   
         message += ". Signal strength is " + String(WiFi.RSSI()) + " dBm. ";
-//        message += "Battery is " + String(ft_battery_check()) + "% charged, ";
+        message += "Battery is " + String(ft_battery_check()) + "% charged, ";
         message += "software version " + String(SOFTWARE_VERSION);
         bot.sendMessage(chat_id, message, "Markdown");
         return (0);
@@ -88,7 +88,7 @@ short ft_new_messages(short numNewMessages)                                     
     return (cycles);
 }
 
-void  ft_check_incomming_messages(short cycles)
+short  ft_check_incomming_messages(short cycles)
 {
     short numNewMessages;
 
@@ -108,14 +108,18 @@ void  ft_check_incomming_messages(short cycles)
             bot.sendMessage(CHAT_ID, "Good talk! I'm off now", "");
         cycles++; 
     }
+    return (numNewMessages);
 }
 
-void  telegram_bot_init(short cycles)
+short  telegram_bot_init(short cycles)
 {
+    short numNewMessages;
+    
     client.setCACert(TELEGRAM_CERTIFICATE_ROOT);
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
+        DEBUG_PRINTF("\nTelegram bot initialised\n", "");
         if (g_power_on)
         {
             bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
@@ -139,9 +143,12 @@ void  telegram_bot_init(short cycles)
             g_panic = false;
             ft_go_to_sleep(10);
         }
-        ft_check_incomming_messages(cycles);
+        numNewMessages = ft_check_incomming_messages(cycles);
     }
+    esp_wifi_set_mode(WIFI_MODE_NULL);
+    DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
     if (g_reboot)
         ft_go_to_sleep(10);
+    return (numNewMessages);
 }
  

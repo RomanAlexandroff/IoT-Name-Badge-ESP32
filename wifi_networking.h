@@ -63,13 +63,11 @@ short IRAM_ATTR shall_I_start(void)
     return (0);
 }
 
-#ifdef NOT_BROWNOUT_FRIENDLY
-    void  IRAM_ATTR ft_wifi_list(void)
-    {
-        wifiMulti.addAP(BACKUP_SSID, BACKUP_PASSWORD);
-        wifiMulti.addAP(HOME_SSID, HOME_PASSWORD);
-        wifiMulti.addAP(UNIVERSITY_SSID, UNIVERSITY_PASSWORD);
-        wifiMulti.addAP(OFFICE_SSID, OFFICE_PASSWORD);
-    }
-#endif
+void  IRAM_ATTR ft_wifi_list(void)
+{
+    wifiMulti.addAP(BACKUP_SSID, BACKUP_PASSWORD);
+    wifiMulti.addAP(HOME_SSID, HOME_PASSWORD);
+    wifiMulti.addAP(UNIVERSITY_SSID, UNIVERSITY_PASSWORD);
+    wifiMulti.addAP(OFFICE_SSID, OFFICE_PASSWORD);
+}
  
