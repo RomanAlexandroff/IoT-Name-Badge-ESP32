@@ -14,6 +14,8 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+#include "header.h"
+
 void  ft_go_to_sleep(unsigned int time_in_millis)
 {
     if (g_reboot)

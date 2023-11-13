@@ -18,6 +18,8 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+#include "header.h"
+
 inline void ft_compose_message(String ssid, IPAddress ip, String chat_id)
 {
     String  message;

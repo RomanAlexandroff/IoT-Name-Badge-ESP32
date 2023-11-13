@@ -13,6 +13,8 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+#include "header.h"
+
 void  ft_power_down_recovery(void)
 {
     RTC_DATA_ATTR static long  power_loss_detector;

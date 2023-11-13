@@ -15,6 +15,8 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+#include "header.h"
+
 short IRAM_ATTR shall_I_start(void)
 {
     RTC_DATA_ATTR static bool errase_display;

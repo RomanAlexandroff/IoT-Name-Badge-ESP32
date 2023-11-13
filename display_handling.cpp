@@ -13,6 +13,8 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
+#include "header.h"
+
 void  IRAM_ATTR display_animated_text_with_font(String output)                 // flikers and inverts colours while running, animation doesn't work yet
 {
     int16_t   tbx;
@@ -67,14 +69,14 @@ void  IRAM_ATTR display_bitmap(const unsigned char* output)                     
     while (display.nextPage());
 }
 
-inline void ft_clear_display(void)                                               // flickers
+void  IRAM_ATTR ft_clear_display(void)                                               // flickers
 {
     display.clearScreen();
     display.writeScreenBuffer();
 }
 
 
-inline void ft_display_init(void)
+void  IRAM_ATTR ft_display_init(void)
 {
     SPI.end();
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
