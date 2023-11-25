@@ -33,14 +33,13 @@ void  setup(void)
     ft_power_down_recovery();
     ft_display_init();
     shall_I_start();
-    if (telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT));
-        ft_delay(7000);
+    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
     display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
     ft_delay(7000);
     display_bitmap(badge_bitmap_slide_4_github);
     ft_delay(7000);
-    display_bitmap(badge_bitmap_slide_5_telegram);
-    ft_delay(7000);
+//    display_bitmap(badge_bitmap_slide_5_telegram);
+//    ft_delay(7000);
     display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
     g_cycle_counter++;

@@ -96,7 +96,8 @@ short  ft_check_incomming_messages(short cycles)
 
     while (cycles <= WAIT_FOR_MESSAGES_LIMIT)
     {
-        ElegantOTA.loop();
+        if (g_ota)
+            ArduinoOTA.handle();
         DEBUG_PRINTF("Waiting for incomming commands from Telegram chat. Waiting loop cycles: %d\n", cycles);       
         numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         while (numNewMessages)
@@ -113,7 +114,7 @@ short  ft_check_incomming_messages(short cycles)
     return (numNewMessages);
 }
 
-short  telegram_bot_init(short cycles)
+void  telegram_bot_init(short cycles)
 {
     short numNewMessages;
     
@@ -151,6 +152,5 @@ short  telegram_bot_init(short cycles)
     DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
     if (g_reboot)
         ft_go_to_sleep(10);
-    return (numNewMessages);
 }
  

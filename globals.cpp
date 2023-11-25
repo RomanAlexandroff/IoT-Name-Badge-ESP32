@@ -19,10 +19,11 @@ GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> displ
 WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
-AsyncWebServer server(80);
+//AsyncWebServer server(80);
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
 bool                          g_power_on;
 bool                          g_reboot;
 bool                          g_panic;
+bool                          g_ota = false;
  

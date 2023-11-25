@@ -20,56 +20,49 @@
 
 #include "header.h"
 
-inline void ft_compose_message(String ssid, IPAddress ip, String chat_id)
-{
-    String  message;
-
-    message = "OTA mode activated. \n\nConnected to\n" + String(ssid);
-    message += "\n\nConnect to this Wi-Fi and go to the link\nhttp://";
-    message += String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]) + "/update";
-    message += "\n\nTo cancel the OTA update write any other command.";
-    bot.sendMessage(chat_id, message, "");
-}
-
-inline void ft_ElegantOTA_callbacks(String chat_id)
-{
-    ElegantOTA.onStart([chat_id]() {
-        DEBUG_PRINTF("\nOTA update process started.\n", "");
-        bot.sendMessage(chat_id, "Receiving new firmware...", "");
-    });
-    ElegantOTA.onEnd([chat_id](bool success) {
-        if (success)
-        {
-            DEBUG_PRINTF("OTA update completed successfully.", "");
-            bot.sendMessage(chat_id, "Success! OTA update is complete", "");
-        }
-        else
-        {
-            DEBUG_PRINTF("OTA update failed.", "");
-            bot.sendMessage(chat_id, "Oups! Something went wrong and OTA update was not completed", "");
-            delay(1000);
-            bot.sendMessage(chat_id, "Let's try again", "");
-        }
-    });
-}
-
 short  ft_ota_mode(String chat_id) 
 {
     String      ssid;
-    IPAddress   ip;
+    String      message;
+    uint16_t    maxlen;
+    const char* nameprefix;
+    char*       fullhostname;
+    uint8_t     mac[6];
 
+    g_ota = true;
     ssid = WiFi.SSID();
-    ip = WiFi.localIP();
+    nameprefix = "IoT Name Badge";
+    maxlen = strlen(nameprefix) + 7;
+    fullhostname = new char[maxlen];
+    WiFi.macAddress(mac);
+    snprintf(fullhostname, maxlen, "%s-%02x%02x%02x", nameprefix, mac[3], mac[4], mac[5]);
+    ArduinoOTA.setHostname(fullhostname);
+    delete[] fullhostname;
+    ArduinoOTA.onStart([chat_id]() {
+        String type;
+        if (ArduinoOTA.getCommand() == U_FLASH)
+            type = "sketch";
+        else
+            type = "filesystem";
+        bot.sendMessage(chat_id, "Updating...", "");
+    });
+    ArduinoOTA.onEnd([chat_id]() {
+        bot.sendMessage(chat_id, "Successfully updated!", "");
+        ft_clear_display();
+        ft_go_to_sleep(10);
+    });
+    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    });
+    ArduinoOTA.onError([chat_id](ota_error_t error) {
+        bot.sendMessage(chat_id, "Something went wrong. Updating was not completed. Try again", "");
+    });
+    ArduinoOTA.begin();
     DEBUG_PRINTF("\n\nIoT Name Badge\nOTA update mode initialized.\n\n", "");
     DEBUG_PRINTF("Wi-Fi network: %s\n", ssid.c_str());
-    DEBUG_PRINTS("IP address: %d.%d.%d.%d\n\n", ip[0], ip[1], ip[2], ip[3]);
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) { request->send(200, "text/plain", "IoT Name Badge OTA update."); });        //Starting the OTA server
-    ElegantOTA.begin(&server);
-    ft_ElegantOTA_callbacks(chat_id);
-    server.begin();
-    DEBUG_PRINTF("HTTP server started.\nConnect to the stated Wi-Fi network and proceed to the link\n\n", "");
-    DEBUG_PRINTS("http://%d.%d.%d.%d/update\n\n\n", ip[0], ip[1], ip[2], ip[3]);
-    ft_compose_message(ssid, ip, chat_id);
-    return (-32767);
+    message = "OTA mode activated. \n\nConnected to\n" + String(ssid);
+    message += "\n\nConnect to this Wi-Fi and use Arduino IDE";
+    message += "\n\nTo cancel the OTA update write any other command.";
+    bot.sendMessage(chat_id, message, "");
+    return (-2000);
 }
  
