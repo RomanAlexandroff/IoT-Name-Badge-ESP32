@@ -22,7 +22,7 @@ void  setup(void)
     volatile long run_time;
     long          time_of_sleep;
 
-    cycle_length = 40000;
+    cycle_length = 50000;
     run_time = 0;
     time_of_sleep = 0;
     #ifdef DEBUG
@@ -33,13 +33,13 @@ void  setup(void)
     ft_power_down_recovery();
     ft_display_init();
     shall_I_start();
-    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
+//    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
     display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
-    ft_delay(7000);
+    ft_delay(8000);
     display_bitmap(badge_bitmap_slide_4_github);
-    ft_delay(7000);
+    ft_delay(8000);
 //    display_bitmap(badge_bitmap_slide_5_telegram);
-//    ft_delay(7000);
+//    ft_delay(8000);
     display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
     g_cycle_counter++;

@@ -24,8 +24,11 @@ short IRAM_ATTR shall_I_start(void)
     int                       quantity;
 
     WiFi.mode(WIFI_STA);
-    if (g_cycle_counter % 5 != 0)                //check Wi-Fi only every 5th cycle
+    if (g_cycle_counter % 3 != 0)                //check Wi-Fi only every 3rd cycle
+    {
+        errase_display = true;
         return (1);
+    }
     DEBUG_PRINTF("Starting WiFi scan...\n", "");
     WiFi.persistent(true);
     quantity = WiFi.scanNetworks(false, true);
@@ -54,14 +57,11 @@ short IRAM_ATTR shall_I_start(void)
             }
             i++;
         }
-    }
-    if (errase_display || g_power_on)
-    {
         ft_clear_display();
         errase_display = false;
         g_power_on = false;
+        ft_go_to_sleep(SLEEP_DURATION);
     }
-    ft_go_to_sleep(SLEEP_DURATION);
     return (0);
 }
 

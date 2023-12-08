@@ -81,7 +81,7 @@ void  IRAM_ATTR ft_display_init(void)
     SPI.end();
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
     display.init(115200);
-    display.powerOff();
+//    display.powerOff();
 }
 
 
