@@ -69,6 +69,35 @@ void  IRAM_ATTR display_bitmap(const unsigned char* output)                     
     while (display.nextPage());
 }
 
+void  IRAM_ATTR display_battery_state(short battery)
+{
+    String    output;
+    int16_t   tbx;
+    int16_t   tby;
+    uint16_t  tbw;
+    uint16_t  tbh;
+    uint16_t  y;
+    uint16_t  x;
+
+    output = "Low battery\n" + String(battery) + "%";
+    display.setFont(&FreeSansBold24pt7b);
+    display.setTextColor(GxEPD_BLACK);
+    display.setRotation(1);
+    display.getTextBounds(output, 0, 0, &tbx, &tby, &tbw, &tbh);
+    y = (display.height() - tbh) / 2;
+    x = display.width();
+    display.setPartialWindow(0, 0, display.width(), display.height());
+    display.setRotation(1);
+    display.firstPage();
+    do
+    {
+        display.fillScreen(GxEPD_WHITE);
+        display.setCursor(x, y);
+        display.print(output);
+    }
+    while (display.nextPage());
+}
+
 void  IRAM_ATTR ft_clear_display(void)                                               // flickers
 {
     display.clearScreen();

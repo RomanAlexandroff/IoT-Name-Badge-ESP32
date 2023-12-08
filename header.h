@@ -48,6 +48,7 @@
 void  IRAM_ATTR display_bitmap(const unsigned char* output);
 void  IRAM_ATTR display_bitmap_with_refresh(const unsigned char* output);
 void  IRAM_ATTR display_animated_text_with_font(String output);
+void  IRAM_ATTR display_battery_state(short battery);
 void  IRAM_ATTR ft_clear_display(void);
 void  IRAM_ATTR ft_display_init(void);
 short ft_battery_check(void);
