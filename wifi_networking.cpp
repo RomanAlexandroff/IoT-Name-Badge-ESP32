@@ -49,6 +49,14 @@ short IRAM_ATTR shall_I_start(void)
         DEBUG_PRINTF("%d networks found\n", quantity);
         while (i < quantity)
         {
+            if (WiFi.SSID(i) == HOME_SSID)
+            {
+                DEBUG_PRINTF("Home network detected. Going into extended sleep\n", "");
+                ft_clear_display();
+                errase_display = false;
+                g_power_on = false;
+                ft_go_to_sleep(1800000);    //30 minutes
+            }
             if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID)
             {
                 DEBUG_PRINTF("Familiar network detected. Initiating the slideshow\n", "");
