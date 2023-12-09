@@ -60,7 +60,9 @@ The OTA functionality added using [ElegantOTA](https://github.com/ayushsharma82/
 #define BOTtoken    "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Telegram Bot Token
 #define CHAT_ID     "-xxxxxxxxxxxxx"                                 // Telegram chat ID
 
-#define OTA_PASSWORD        "1234"
+#define OTA_PASSWORD        1234
+
+#define TIME_ZONE           2                                        // according to the GMT standart
 
 #define SSID1               "wifi1_name"
 #define PASSWORD1           "wifi1_password"
