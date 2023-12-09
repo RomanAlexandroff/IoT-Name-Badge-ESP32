@@ -38,7 +38,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
         bot.sendMessage(chat_id, message, "Markdown");
         return (0);
     } 
-    if (text == ("/" + String(OTA_PASSWORD)) || text == ("/ota " + String(OTA_PASSWORD)))
+    if (text == ("/" + OTA_PASSWORD) || text == ("/ota " + OTA_PASSWORD))
     {
         bot.sendMessage(chat_id, "Password accepted", "");
         return (ft_ota_mode(chat_id));
