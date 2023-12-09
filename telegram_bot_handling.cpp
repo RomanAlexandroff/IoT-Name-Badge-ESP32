@@ -1,7 +1,7 @@
 /* ********************************************************************************************** */
 /*                                                                                                */
 /*   Soft  Tracker  Project  ESP32-C3                                  :::::::::        :::       */
-/*   telegram_bot_handling.h                                          :+:    :+:     :+: :+:      */
+/*   telegram_bot_handling.cpp                                        :+:    :+:     :+: :+:      */
 /*                                                                   +:+    +:+    +:+   +:+      */
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
@@ -58,7 +58,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     {
         message = text;
         message.remove(0, 1);
-        display_animated_text_with_font(message);
+        ft_display_animated_text_with_font(message);
         text.clear();
         text = "Roman's badge now says:\n\"" + message + "\"";
         bot.sendMessage(chat_id, text, "");

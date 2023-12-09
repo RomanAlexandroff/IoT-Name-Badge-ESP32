@@ -1,7 +1,7 @@
 /* ********************************************************************************************** */
 /*                                                                                                */
 /*   Soft  Tracker  Project  ESP32-C3                                  :::::::::        :::       */
-/*   display_handling.h                                               :+:    :+:     :+: :+:      */
+/*   display_handling.cpp                                             :+:    :+:     :+: :+:      */
 /*                                                                   +:+    +:+    +:+   +:+      */
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
@@ -15,7 +15,7 @@
 
 #include "header.h"
 
-void  IRAM_ATTR display_animated_text_with_font(String output)                 // flikers and inverts colours while running, animation doesn't work yet
+void  IRAM_ATTR ft_display_animated_text_with_font(String output)                 // flikers and inverts colours while running, animation doesn't work yet
 {
     int16_t   tbx;
     int16_t   tby;
@@ -37,13 +37,13 @@ void  IRAM_ATTR display_animated_text_with_font(String output)                 /
         display.fillScreen(GxEPD_WHITE);
         display.setCursor(x, y);
         display.print(output);
-        x -= 25;                                                               // this value here controls the speed of movement
+        x -= 25;                                                                  // this value here controls the speed of movement
         if (x + tbw < 0)
             x = display.width();
     } while (display.nextPage());
 }
 
-void  IRAM_ATTR display_bitmap_with_refresh(const unsigned char* output)       // flickers, does NOT invert colours while running 
+void  IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output)       // flickers, does NOT invert colours while running 
 {
     display.setRotation(1);
     display.setFullWindow();
@@ -56,7 +56,7 @@ void  IRAM_ATTR display_bitmap_with_refresh(const unsigned char* output)       /
     while (display.nextPage());
 }
 
-void  IRAM_ATTR display_bitmap(const unsigned char* output)                     // uses Full Screen Partial Mode. Does NOT flicker, does NOT invert colours while running 
+void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                     // uses Full Screen Partial Mode. Does NOT flicker, does NOT invert colours while running 
 {
     display.setPartialWindow(0, 0, display.width(), display.height());
     display.setRotation(1);
@@ -69,7 +69,7 @@ void  IRAM_ATTR display_bitmap(const unsigned char* output)                     
     while (display.nextPage());
 }
 
-void  IRAM_ATTR display_battery_state(short battery)
+void  IRAM_ATTR ft_display_battery_state(short battery)
 {
     String    output;
     int16_t   tbx;

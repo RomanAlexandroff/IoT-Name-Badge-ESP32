@@ -36,19 +36,19 @@ void  setup(void)
     shall_I_start();
     battery = ft_battery_check();
 //    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
-    display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
+    ft_display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
     ft_delay(8000);
     if (battery <= 20)
     {
-        display_battery_state(battery);
+        ft_display_battery_state(battery);
         cycle_length = cycle_length + 6000 * (21 - battery);
         ft_delay(8000);
     }
-    display_bitmap(badge_bitmap_slide_4_github);
+    ft_display_bitmap(badge_bitmap_slide_4_github);
     ft_delay(8000);
-//    display_bitmap(badge_bitmap_slide_5_telegram);
+//    ft_display_bitmap(badge_bitmap_slide_5_telegram);
 //    ft_delay(8000);
-    display_bitmap(badge_bitmap_slide_3_Roman);
+    ft_display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
     g_cycle_counter++;
     if (g_cycle_counter >= 65004)

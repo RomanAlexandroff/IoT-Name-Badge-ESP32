@@ -1,7 +1,7 @@
 /* ********************************************************************************************** */
 /*                                                                                                */
 /*   IoT  Name  Badge  ESP32-C3                                        :::::::::        :::       */
-/*   wifi_list.h                                                      :+:    :+:     :+: :+:      */
+/*   wifi_list.cpp                                                    :+:    :+:     :+: :+:      */
 /*                                                                   +:+    +:+    +:+   +:+      */
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
@@ -52,10 +52,8 @@ short IRAM_ATTR shall_I_start(void)
             if (WiFi.SSID(i) == HOME_SSID)
             {
                 DEBUG_PRINTF("Home network detected. Going into extended sleep\n", "");
-                ft_clear_display();
-                errase_display = false;
                 g_power_on = false;
-                ft_go_to_sleep(1800000);    //30 minutes
+                ft_go_to_sleep(ft_home_mode(&errase_display));
             }
             if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID)
             {
