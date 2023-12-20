@@ -35,7 +35,6 @@ void  setup(void)
     ft_display_init();
     shall_I_start();
     battery = ft_battery_check();
-//    telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
     ft_display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
     ft_delay(8000);
     if (battery <= 20)
@@ -46,8 +45,6 @@ void  setup(void)
     }
     ft_display_bitmap(badge_bitmap_slide_4_github);
     ft_delay(8000);
-//    ft_display_bitmap(badge_bitmap_slide_5_telegram);
-//    ft_delay(8000);
     ft_display_bitmap(badge_bitmap_slide_3_Roman);
     display.powerOff();
     g_cycle_counter++;

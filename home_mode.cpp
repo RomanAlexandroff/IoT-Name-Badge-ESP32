@@ -94,6 +94,9 @@ long  ft_home_mode(bool* p_errase_display)
         ft_display_battery_state(battery);
         *p_errase_display = true;
     }
+    else
+        telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
+    hour = minute = 6; 
     time_of_sleep = 1800000;                  //30 minutes
     if (ft_get_time(&hour, &minute, &week_day) && (hour >= 21 || hour <= 5))
     {
