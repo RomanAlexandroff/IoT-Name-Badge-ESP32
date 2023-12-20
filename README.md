@@ -37,7 +37,8 @@ Here's the lowdown on how the IoT Name Badge operates:
 - Multiple Wi-Fi Enabled: Connect to multiple known Wi-Fi networks instead of being restricted to a single network.
 - Telegram Interaction: Write personalized messages onto your badge using the Telegram chat.
 - User Commands: Control some badge functionality via Telegram chat commands.
-- OTA Update: Effortlessly update the badge's firmware through the Telegram chat, eliminating the need for disassembly.
+- Home Mode: while at home the badge will start checking Wi-Fi less frequently, and when the night comes, it will just sleep until morning.
+- OTA Update: Effortlessly update the badge's firmware through Arduino IDE, eliminating the need for disassembly.
 
 ## Future Development
 
