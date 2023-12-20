@@ -22,6 +22,7 @@ short IRAM_ATTR shall_I_start(void)
     RTC_DATA_ATTR static bool errase_display;
     int                       i;
     int                       quantity;
+    long                      time_of_sleep;
 
     WiFi.mode(WIFI_STA);
     if (g_cycle_counter % 3 != 0)                //check Wi-Fi only every 3rd cycle
@@ -52,10 +53,21 @@ short IRAM_ATTR shall_I_start(void)
             if (WiFi.SSID(i) == HOME_SSID)
             {
                 DEBUG_PRINTF("Home network detected. Going into extended sleep\n", "");
-                g_power_on = false;
-                ft_go_to_sleep(ft_home_mode(&errase_display));
+                time_of_sleep = ft_home_mode(&errase_display);
+                if (errase_display || g_power_on)
+                {
+                    ft_clear_display();
+                    errase_display = false;
+                    g_power_on = false;
+                    display.powerOff();
+                }
+                ft_go_to_sleep(time_of_sleep);
             }
-            if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID)
+            else if (WiFi.SSID(i) == OFFICE_SSID    || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID    ||
+                     WiFi.SSID(i) == SCHOOL42_SSID1 || WiFi.SSID(i) == SCHOOL42_SSID2  || WiFi.SSID(i) == SCHOOL42_SSID3 ||
+                     WiFi.SSID(i) == SCHOOL42_SSID4 || WiFi.SSID(i) == SCHOOL42_SSID5  || WiFi.SSID(i) == SCHOOL42_SSID6 ||
+                     WiFi.SSID(i) == SCHOOL42_SSID7 || WiFi.SSID(i) == SCHOOL42_SSID8  || WiFi.SSID(i) == SCHOOL42_SSID9 ||
+                     WiFi.SSID(i) == SCHOOL42_SSID10)
             {
                 DEBUG_PRINTF("Familiar network detected. Initiating the slideshow\n", "");
                 errase_display = true;

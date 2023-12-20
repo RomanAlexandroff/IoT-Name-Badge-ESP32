@@ -42,9 +42,11 @@ static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
         WiFi.mode(WIFI_OFF);
         return (0);
     }
+    HTTPClient http;
     if (!client.connect("www.google.com", 80))
     {
         DEBUG_PRINTF("Google server connection failed", "");
+        http.end();
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
@@ -71,6 +73,7 @@ static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
             *p_minute = line.substring(26, 28).toInt();
         }
     }
+    http.end();
     WiFi.disconnect(true);
     WiFi.mode(WIFI_OFF);
     ft_time_correction(p_hour);
@@ -91,12 +94,7 @@ long  ft_home_mode(bool* p_errase_display)
         ft_display_battery_state(battery);
         *p_errase_display = true;
     }
-    else
-    {
-        ft_clear_display();
-        *p_errase_display = false;
-    }
-    display.powerOff();
+    time_of_sleep = 1800000;                  //30 minutes
     if (ft_get_time(&hour, &minute, &week_day) && (hour >= 21 || hour <= 5))
     {
         if (hour >= 21 && hour <= 23)
@@ -104,7 +102,5 @@ long  ft_home_mode(bool* p_errase_display)
         if (hour >= 0 && hour <= 5)
             time_of_sleep = (6 - hour) * 3600000 - (minute * 60000);
     }
-    else
-        time_of_sleep = 1800000;    //30 minutes
     return (time_of_sleep);
 }
