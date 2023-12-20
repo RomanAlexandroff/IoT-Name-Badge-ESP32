@@ -2,7 +2,7 @@
 
 ## About the Project
 
-Get ready to meet the IoT Name Badge, the electronic name badge designed to enhance convenience and efficiency of your work life. This nifty gadget can tell if you are at work or not, so it displays your name only to your workmates and automatically hides it as soon as you leave the place. 
+Get ready to meet the IoT Name Badge, the electronic name badge designed to enhance convenience and efficiency of your work life. By tracking Wi-Fi networks around it, this nifty gadget can tell if you are at work or not, so it displays your name only to your workmates and automatically hides it as soon as you leave the place. 
 
 That being said, the badge is not limited to your work space only — add as many locations as you want where you are comfortable displaying your personal info. It is not limited solely to a name either. The badge can run a full-blown slideshow of images (e.g. logos, contact info, signs, QR-codes etc.) to impress everyone around!
 
@@ -41,6 +41,7 @@ Here's the lowdown on how the IoT Name Badge operates:
 
 ## Future Development
 
+- Fix Telegram bot implementation
 - Optimize Memory: Move bitmap images into the filesystem, freeing up space for even more features.
 - Location Management: Add and delete locations using Telegram chat commands.
 - Find Your Badge: If you forget your badge in any of the places you usually go to, it will be able to connect to the Internet and send you its location in the Telegram chat.
@@ -51,7 +52,7 @@ The project is based on Jean-Marc Zingg's [GxEPD2](https://github.com/ZinggJM/Gx
       
 The Telegram-related functionality is possible thanks to Brian Lough's [Universal Telegram Bot](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot) library.
 
-The OTA functionality added using [ElegantOTA](https://github.com/ayushsharma82/ElegantOTA) as well as [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) libraries.
+The OTA functionality added using native Arduino OTA library.
 
 
 ## Example of the credentials.h File
