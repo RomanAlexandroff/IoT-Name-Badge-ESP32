@@ -89,5 +89,6 @@ void  IRAM_ATTR ft_wifi_list(void)
     wifiMulti.addAP(HOME_SSID, HOME_PASSWORD);
     wifiMulti.addAP(UNIVERSITY_SSID, UNIVERSITY_PASSWORD);
     wifiMulti.addAP(OFFICE_SSID, OFFICE_PASSWORD);
+    wifiMulti.addAP(SCHOOL42_SSID4, SCHOOL42_PASSWORD4);
 }
  

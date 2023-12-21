@@ -26,14 +26,14 @@ static void ft_time_correction(int* p_hour)
         *p_hour = 24 - *p_hour;
 }
 
-static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
+static short ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
 {
-    int     i;
-    String  line;
+    int i;
+    String line;
 
     i = 0;
     ft_wifi_list();
-    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED) 
+    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
         DEBUG_PRINTF("Successfully connected to Wi-Fi network", "");
     else
     {
@@ -43,7 +43,7 @@ static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
         return (0);
     }
     HTTPClient http;
-    if (!client.connect("www.google.com", 80))
+    if (!http.begin("http://www.google.com"))
     {
         DEBUG_PRINTF("Google server connection failed", "");
         http.end();
@@ -52,26 +52,30 @@ static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
         return (0);
     }
     DEBUG_PRINTF("Google server connection SUCCESS", "");
-    client.print(String("GET / HTTP/1.1\r\n") +
-        String("Host: www.google.com\r\n") +
-        String("Connection: close\r\n\r\n"));           
-    while (!client.available() && i < 10)
+    http.addHeader("Connection", "close");
+    int httpCode = http.GET();
+    if (httpCode > 0)
     {
-        delay(500);
-        DEBUG_PRINTF("Retreiving data...", "");
-        i++;
-    }
-    client.setNoDelay(false);
-    while (client.connected() && client.available())
-    {
-        line = client.readStringUntil('\n');
-        line.toUpperCase();
-        if (line.startsWith("DATE: "))
+        DEBUG_PRINTF("Retrieving data...", "");
+        while (http.connected())
         {
-            *p_week_day = line.substring(6, 9);
-            *p_hour = (line.substring(23, 25).toInt());
-            *p_minute = line.substring(26, 28).toInt();
+            line = http.getString();
+            line.toUpperCase();
+            if (line.startsWith("DATE: "))
+            {
+                *p_week_day = line.substring(6, 9);
+                *p_hour = (line.substring(23, 25).toInt());
+                *p_minute = line.substring(26, 28).toInt();
+            }
         }
+    }
+    else
+    {
+        DEBUG_PRINTF("HTTP request failed", "");
+        http.end();
+        WiFi.disconnect(true);
+        WiFi.mode(WIFI_OFF);
+        return (0);
     }
     http.end();
     WiFi.disconnect(true);
