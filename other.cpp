@@ -19,10 +19,10 @@
 void  ft_go_to_sleep(unsigned int time_in_millis)
 {
     DEBUG_PRINTF("The device was running for %d second(s) this time\n", (millis() / 1000));
+    DEBUG_PRINTF("Going to sleep for %u.\n", time_in_millis);
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
-    if (time_in_millis = 10)
-        esp_restart();
-    esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
+    time_in_millis *= 1000;
+    esp_sleep_enable_timer_wakeup(time_in_millis);
     esp_deep_sleep_start();
 }
 

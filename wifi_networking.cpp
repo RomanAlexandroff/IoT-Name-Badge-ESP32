@@ -22,7 +22,7 @@ short IRAM_ATTR shall_I_start(void)
     RTC_DATA_ATTR static bool errase_display;
     int                       i;
     int                       quantity;
-    long                      time_of_sleep;
+    unsigned int              time_of_sleep;
 
     WiFi.mode(WIFI_STA);
     if (g_cycle_counter % 3 != 0)                //check Wi-Fi only every 3rd cycle
@@ -36,13 +36,8 @@ short IRAM_ATTR shall_I_start(void)
     i = 0;
     if (quantity <= 0)
     {
-        DEBUG_PRINTF("No networks found OR WiFi scan error #%d\n", quantity);
-        if (errase_display || g_power_on)
-        {
-            ft_clear_display();
-            errase_display = false;
-            g_power_on = false;
-        }
+        DEBUG_PRINTF("No networks found OR WiFi scan error #%d\n", quantity); 
+        errase_display = ft_clear_display(errase_display);
         ft_go_to_sleep(SLEEP_DURATION);
     }
     else
@@ -52,15 +47,9 @@ short IRAM_ATTR shall_I_start(void)
         {
             if (WiFi.SSID(i) == HOME_SSID)
             {
-                DEBUG_PRINTF("Home network detected. Going into extended sleep\n", "");
+                DEBUG_PRINTF("Home network detected. Going into Home mode\n", "");
                 time_of_sleep = ft_home_mode(&errase_display);
-                if (errase_display || g_power_on)
-                {
-                    ft_clear_display();
-                    errase_display = false;
-                    g_power_on = false;
-                    display.powerOff();
-                }
+                errase_display = ft_clear_display(errase_display);
                 ft_go_to_sleep(time_of_sleep);
             }
             else if (WiFi.SSID(i) == OFFICE_SSID    || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID    ||
@@ -75,9 +64,8 @@ short IRAM_ATTR shall_I_start(void)
             }
             i++;
         }
-        ft_clear_display();
-        errase_display = false;
-        g_power_on = false;
+        DEBUG_PRINTF("The detected networks were not on the list. Going to sleep.\n", "");
+        errase_display = ft_clear_display(errase_display);
         ft_go_to_sleep(SLEEP_DURATION);
     }
     return (0);

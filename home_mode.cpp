@@ -34,10 +34,10 @@ static short ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
     i = 0;
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
-        DEBUG_PRINTF("Successfully connected to Wi-Fi network", "");
+        DEBUG_PRINTF("Successfully connected to Wi-Fi network\n", "");
     else
     {
-        DEBUG_PRINTF("Unable to connect to Wi-Fi network.", "");
+        DEBUG_PRINTF("Unable to connect to Wi-Fi network.\n", "");
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
@@ -45,21 +45,22 @@ static short ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
     HTTPClient http;
     if (!http.begin("http://www.google.com"))
     {
-        DEBUG_PRINTF("Google server connection failed", "");
+        DEBUG_PRINTF("Google server connection failed\n", "");
         http.end();
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
     }
-    DEBUG_PRINTF("Google server connection SUCCESS", "");
+    DEBUG_PRINTF("Google server connection SUCCESS\n", "");
     http.addHeader("Connection", "close");
     int httpCode = http.GET();
     if (httpCode > 0)
     {
-        DEBUG_PRINTF("Retrieving data...", "");
+        DEBUG_PRINTF("Retrieving data...\n", "");
         while (http.connected())
         {
             line = http.getString();
+            DEBUG_PRINTF("Received data: %s\n\n", line);
             line.toUpperCase();
             if (line.startsWith("DATE: "))
             {
@@ -84,15 +85,16 @@ static short ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
     return (1);
 }
 
-long  ft_home_mode(bool* p_errase_display)
+unsigned int  ft_home_mode(bool* p_errase_display)
 {
-    short   battery;
-    int     hour;
-    int     minute;
-    String  week_day;
-    long    time_of_sleep;
+    short         battery;
+    int           hour;
+    int           minute;
+    String        week_day;
+    unsigned int  time_of_sleep;
 
     battery = ft_battery_check();
+    DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", battery);
     if (battery <= 20)
     {
         ft_display_battery_state(battery);
@@ -109,5 +111,8 @@ long  ft_home_mode(bool* p_errase_display)
         if (hour >= 0 && hour <= 5)
             time_of_sleep = (6 - hour) * 3600000 - (minute * 60000);
     }
+    DEBUG_PRINTS("\nFinal values:\nhour = %d\nminute = %d\ntime_of_sleep = %d\n\n", hour, minute, time_of_sleep, "");
+    DEBUG_PRINTF("Exiting Home Mode\n\n", "");
     return (time_of_sleep);
 }
+ 

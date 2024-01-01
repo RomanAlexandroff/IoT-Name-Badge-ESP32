@@ -20,7 +20,7 @@ void  setup(void)
 {
     long          cycle_length;
     volatile long run_time;
-    long          time_of_sleep;
+    unsigned int  time_of_sleep;
     short         battery;
 
     cycle_length = 50000;

@@ -98,10 +98,16 @@ void  IRAM_ATTR ft_display_battery_state(short battery)
     while (display.nextPage());
 }
 
-void  IRAM_ATTR ft_clear_display(void)                                               // flickers
+bool  IRAM_ATTR ft_clear_display(bool errase_display)                          // flickers
 {
-    display.clearScreen();
-    display.writeScreenBuffer();
+    if (errase_display)
+    {
+        display.clearScreen();
+        display.writeScreenBuffer();
+        display.powerOff();
+        errase_display = false;
+    }
+    return (errase_display);
 }
 
 

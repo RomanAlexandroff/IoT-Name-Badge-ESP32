@@ -29,7 +29,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.08
+#define SOFTWARE_VERSION        2.11
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -48,7 +48,7 @@ void          IRAM_ATTR ft_display_bitmap(const unsigned char* output);
 void          IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output);
 void          IRAM_ATTR ft_display_animated_text_with_font(String output);
 void          IRAM_ATTR ft_display_battery_state(short battery);
-void          IRAM_ATTR ft_clear_display(void);
+bool          IRAM_ATTR ft_clear_display(bool errase_display);
 void          IRAM_ATTR ft_display_init(void);
 short         ft_battery_check(void);
 short         IRAM_ATTR ft_new_messages(short numNewMessages);
@@ -58,7 +58,7 @@ void          IRAM_ATTR ft_wifi_list(void);
 short         ft_ota_mode(String chat_id);
 static void   ft_time_correction(int* p_hour);
 static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day);
-long          ft_home_mode(bool* p_errase_display);
+unsigned int  ft_home_mode(bool* p_errase_display);
 short         IRAM_ATTR shall_I_start(void);
 void          IRAM_ATTR ft_delay(unsigned int time_in_millis);
 void          ft_go_to_sleep(unsigned int time_in_millis);

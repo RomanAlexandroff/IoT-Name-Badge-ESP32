@@ -38,7 +38,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
         bot.sendMessage(chat_id, message, "Markdown");
         return (0);
     } 
-    if (text == ("/" + OTA_PASSWORD) || text == ("/ota " + OTA_PASSWORD))
+    else if (text == ("/" + String(OTA_PASSWORD)) || text == ("/ota " + String(OTA_PASSWORD)))
     {
         bot.sendMessage(chat_id, "Password accepted", "");
         return (ft_ota_mode(chat_id));
@@ -127,14 +127,6 @@ void  telegram_bot_init(short cycles)
         {
             bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
             g_power_on = false;
-        }
-        if (g_reboot)
-        {
-            bot.sendMessage(CHAT_ID, ("I've successfully rebooted. Current software version " + String(SOFTWARE_VERSION)), "");
-            delay(1000);
-            bot.sendMessage(CHAT_ID, "Is there anything else I can do for you?", "");
-            cycles = 0;
-            g_reboot = false;
         }
         if (g_panic)
         {

@@ -33,7 +33,6 @@ void  ft_power_down_recovery(void)
             break;
         case ESP_RST_SW:
             DEBUG_PRINTF("\nReset reason: Software reset\n", "");
-            g_reboot = true;
             break;
         case ESP_RST_PANIC:
             DEBUG_PRINTF("\nReset reason: Panic/exception reset\n", "");

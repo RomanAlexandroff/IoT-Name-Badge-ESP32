@@ -21,8 +21,6 @@
 #include <Fonts/FreeSansBold24pt7b.h>
 #include <WiFiClientSecure.h>
 #include <WiFiMulti.h>
-//#include <AsyncTCP.h>
-//#include <ESPAsyncWebServer.h>
 #include <UniversalTelegramBot.h>
 #include "credentials.h"
 
@@ -45,7 +43,6 @@ extern GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)
 extern WiFiMulti wifiMulti;
 extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
-//extern AsyncWebServer server;
 
 extern RTC_DATA_ATTR unsigned short  g_cycle_counter;
 extern bool                          g_power_on;
