@@ -46,7 +46,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     else if (text == "/reboot")
     {
         bot.sendMessage(chat_id, "Rebooting!", "");
-        g_reboot = true;
+        globals.reboot = true;
         return (WAIT_FOR_MESSAGES_LIMIT);
     }
     else if (text == "/off")
@@ -96,7 +96,7 @@ short  ft_check_incomming_messages(short cycles)
 
     while (cycles <= WAIT_FOR_MESSAGES_LIMIT)
     {
-        if (g_ota)
+        if (globals.ota)
             ArduinoOTA.handle();
         DEBUG_PRINTF("Waiting for incomming commands from Telegram chat. Waiting loop cycles: %d\n", cycles);       
         numNewMessages = bot.getUpdates(bot.last_message_received + 1);
@@ -123,26 +123,26 @@ void  telegram_bot_init(short cycles)
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
         DEBUG_PRINTF("\nTelegram bot initialised\n", "");
-        if (g_power_on)
+        if (globals.power_on)
         {
             bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
-            g_power_on = false;
+            globals.power_on = false;
         }
-        if (g_panic)
+        if (globals.panic)
         {
             bot.sendMessage(CHAT_ID, "Don't panic, but my Core has just panicked!", "");
             delay(3000);
             bot.sendMessage(CHAT_ID, "You were trying to update me, weren't you? Well, let's try again", "");
             delay(2000);
             ft_check_incomming_messages(ft_ota_mode(CHAT_ID));
-            g_panic = false;
+            globals.panic = false;
             ft_go_to_sleep(10);
         }
         numNewMessages = ft_check_incomming_messages(cycles);
     }
     esp_wifi_set_mode(WIFI_MODE_NULL);
     DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
-    if (g_reboot)
+    if (globals.reboot)
         ft_go_to_sleep(10);
 }
  

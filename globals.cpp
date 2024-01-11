@@ -21,8 +21,18 @@ WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
+
+struct GlobalsManagement globals = {
+    .power_on = false,
+    .reboot = false,
+    .panic = false,
+    .ota = false
+};
+
+/*
 bool                          g_power_on = false;
 bool                          g_reboot = false;
 bool                          g_panic = false;
 bool                          g_ota = false;
+*/
  

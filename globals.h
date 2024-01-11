@@ -45,9 +45,19 @@ extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
 
 extern RTC_DATA_ATTR unsigned short  g_cycle_counter;
+
+struct GlobalsManagement {
+    bool  power_on;
+    bool  reboot;
+    bool  panic;
+    bool  ota;
+    };
+extern struct GlobalsManagement globals;
+
+/*
 extern bool                          g_power_on;
 extern bool                          g_reboot;
 extern bool                          g_panic;
 extern bool                          g_ota;
-
+*/
 #endif
