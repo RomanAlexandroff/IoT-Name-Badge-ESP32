@@ -29,7 +29,7 @@ short  ft_ota_mode(String chat_id)
     char*       fullhostname;
     uint8_t     mac[6];
 
-    g_ota = true;
+    globals.ota = true;
     ssid = WiFi.SSID();
     nameprefix = "IoT Name Badge";
     maxlen = strlen(nameprefix) + 7;
@@ -48,7 +48,7 @@ short  ft_ota_mode(String chat_id)
     });
     ArduinoOTA.onEnd([chat_id]() {
         bot.sendMessage(chat_id, "Successfully updated!", "");
-        ft_clear_display();
+        ft_clear_display(true);
         ft_go_to_sleep(10);
     });
     ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
