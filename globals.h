@@ -54,10 +54,4 @@ struct GlobalsManagement {
     };
 extern struct GlobalsManagement globals;
 
-/*
-extern bool                          g_power_on;
-extern bool                          g_reboot;
-extern bool                          g_panic;
-extern bool                          g_ota;
-*/
 #endif

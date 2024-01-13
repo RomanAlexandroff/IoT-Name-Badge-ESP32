@@ -17,11 +17,10 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
-#include <HTTPClient.h>
-#include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <Wire.h>
+#include <time.h>
 #include <stdio.h>
 #include <esp_system.h>
 #include <driver/adc.h>
@@ -29,7 +28,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.11
+#define SOFTWARE_VERSION        2.14
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -56,8 +55,7 @@ short         IRAM_ATTR ft_check_incomming_messages(short cycles);
 void          telegram_bot_init(short cycles);
 void          IRAM_ATTR ft_wifi_list(void);
 short         ft_ota_mode(String chat_id);
-static void   ft_time_correction(int* p_hour);
-static short  ft_get_time(int* p_hour, int* p_minute, String* p_week_day);
+static short  ft_get_time(int* p_hour, int* p_minute, int* p_week_day);
 unsigned int  ft_home_mode(bool* p_errase_display);
 short         IRAM_ATTR shall_I_start(void);
 void          IRAM_ATTR ft_delay(unsigned int time_in_millis);

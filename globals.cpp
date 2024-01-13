@@ -28,11 +28,4 @@ struct GlobalsManagement globals = {
     .panic = false,
     .ota = false
 };
-
-/*
-bool                          g_power_on = false;
-bool                          g_reboot = false;
-bool                          g_panic = false;
-bool                          g_ota = false;
-*/
  

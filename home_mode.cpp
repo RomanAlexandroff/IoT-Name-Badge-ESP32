@@ -17,71 +17,34 @@
 
 #include "header.h"
 
-static void ft_time_correction(int* p_hour)
+static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
 {
-    *p_hour += TIME_ZONE;
-    if (*p_hour > 23)
-        *p_hour -= 24;
-    if (*p_hour < 0)
-        *p_hour = 24 - *p_hour;
-}
+    const char* ntp_server = "pool.ntp.org";
+    const long  gmt_offset_sec = TIME_ZONE * 3600;
+    const int   daylight_offset_sec = 3600;
+    struct tm   time_info;
 
-static short ft_get_time(int* p_hour, int* p_minute, String* p_week_day)
-{
-    int i;
-    String line;
-
-    i = 0;
     ft_wifi_list();
-    if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
-        DEBUG_PRINTF("Successfully connected to Wi-Fi network\n", "");
-    else
+    if (!wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
-        DEBUG_PRINTF("Unable to connect to Wi-Fi network.\n", "");
+        DEBUG_PRINTF("Failed to obtain time due to Wi-Fi connection issues\n", "");
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
     }
-    HTTPClient http;
-    if (!http.begin("http://www.google.com"))
+    configTime(gmt_offset_sec, daylight_offset_sec, ntp_server);
+    if(!getLocalTime(&time_info))
     {
-        DEBUG_PRINTF("Google server connection failed\n", "");
-        http.end();
+        DEBUG_PRINTF("Failed to obtain time from the NTP server\n", "");
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
     }
-    DEBUG_PRINTF("Google server connection SUCCESS\n", "");
-    http.addHeader("Connection", "close");
-    int httpCode = http.GET();
-    if (httpCode > 0)
-    {
-        DEBUG_PRINTF("Retrieving data...\n", "");
-        while (http.connected())
-        {
-            line = http.getString();
-            DEBUG_PRINTF("Received data: %s\n\n", line);
-            line.toUpperCase();
-            if (line.startsWith("DATE: "))
-            {
-                *p_week_day = line.substring(6, 9);
-                *p_hour = (line.substring(23, 25).toInt());
-                *p_minute = line.substring(26, 28).toInt();
-            }
-        }
-    }
-    else
-    {
-        DEBUG_PRINTF("HTTP request failed", "");
-        http.end();
-        WiFi.disconnect(true);
-        WiFi.mode(WIFI_OFF);
-        return (0);
-    }
-    http.end();
+    *p_hour = time_info.tm_hour;
+    *p_minute = time_info.tm_min;
+    *p_week_day = time_info.tm_wday;
     WiFi.disconnect(true);
     WiFi.mode(WIFI_OFF);
-    ft_time_correction(p_hour);
     return (1);
 }
 
@@ -90,9 +53,10 @@ unsigned int  ft_home_mode(bool* p_errase_display)
     short         battery;
     int           hour;
     int           minute;
-    String        week_day;
+    int           week_day;
     unsigned int  time_of_sleep;
 
+    time_of_sleep = 1800000;                  //30 minutes
     battery = ft_battery_check();
     DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", battery);
     if (battery <= 20)
@@ -102,8 +66,6 @@ unsigned int  ft_home_mode(bool* p_errase_display)
     }
     else
         telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
-    hour = minute = 6; 
-    time_of_sleep = 1800000;                  //30 minutes
     if (ft_get_time(&hour, &minute, &week_day) && (hour >= 21 || hour <= 5))
     {
         if (hour >= 21 && hour <= 23)
