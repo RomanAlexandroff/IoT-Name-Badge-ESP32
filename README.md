@@ -37,7 +37,7 @@ Here's the lowdown on how the IoT Name Badge operates:
 - Multiple Wi-Fi Enabled: Connect to multiple known Wi-Fi networks instead of being restricted to a single network.
 - Telegram Interaction: Write personalized messages onto your badge using the Telegram chat.
 - User Commands: Control some badge functionality via Telegram chat commands.
-- Home Mode: while at home the badge will start checking Wi-Fi less frequently, and when the night comes, it will just sleep until morning.
+- Home Mode: while at home the badge will start checking Wi-Fi less frequently, and when the night comes, it will simply sleep until morning.
 - OTA Update: Effortlessly update the badge's firmware through Arduino IDE, eliminating the need for disassembly.
 
 ## Future Development
@@ -53,7 +53,7 @@ The project is based on Jean-Marc Zingg's [GxEPD2](https://github.com/ZinggJM/Gx
       
 The Telegram-related functionality is possible thanks to Brian Lough's [Universal Telegram Bot](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot) library.
 
-The OTA functionality added using native Arduino OTA library.
+The OTA functionality added using the native Arduino OTA library.
 
 
 ## Example of the credentials.h File
@@ -62,18 +62,18 @@ The OTA functionality added using native Arduino OTA library.
 #define BOTtoken    "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Telegram Bot Token
 #define CHAT_ID     "-xxxxxxxxxxxxx"                                 // Telegram chat ID
 
-#define OTA_PASSWORD        1234
+#define OTA_PASSWORD         "1234"
 
-#define TIME_ZONE           2                                        // according to the GMT standart
+#define TIME_ZONE            2                            // according to the GMT standart
 
-#define SSID1               "wifi1_name"
-#define PASSWORD1           "wifi1_password"
+#define HOME_SSID            "wifi1_name"
+#define HOME_PASSWORD        "wifi1_password"
 
-#define BACKUP_SSID1        "wifi2_name"
-#define BACKUP_PASSWORD1    "wifi2_password"
+#define UNIVERSITY_SSID      "wifi2_name"
+#define UNIVERSITY_PASSWORD  "wifi2_password"
 
-#define BACKUP_SSID2        "wifi3_name"
-#define BACKUP_PASSWORD2    "wifi3_password"
+#define OFFICE_SSID          "wifi3_name"
+#define OFFICE_PASSWORD      "wifi3_password"
 ```
  
 ## Calculating Constants for the Battery Charge Function
