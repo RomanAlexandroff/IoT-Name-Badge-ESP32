@@ -16,13 +16,13 @@
 
 #include "header.h"
 
-void  ft_go_to_sleep(unsigned int time_in_millis)
+void  ft_go_to_sleep(uint64_t time_in_millis)
 {
+    display.powerOff();
     DEBUG_PRINTF("The device was running for %d second(s) this time\n", (millis() / 1000));
-    DEBUG_PRINTF("Going to sleep for %u.\n", time_in_millis);
+    DEBUG_PRINTF("Going to sleep for %u seconds.\n", time_in_millis / 1000);
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
-    time_in_millis *= 1000;
-    esp_sleep_enable_timer_wakeup(time_in_millis);
+    esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
     esp_deep_sleep_start();
 }
 
@@ -42,6 +42,7 @@ short  ft_battery_check(void)
     {
         battery += ceil((adc1_get_raw(ADC1_CHANNEL_0) - 886) / 12.14);                 // see ReadMe regarding these constants
         i--;
+        ft_delay(500);
     }
     battery = battery / 4;                                                             // counting average of 4 samples
     if (battery <= 0)
