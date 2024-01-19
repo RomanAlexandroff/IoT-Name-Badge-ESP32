@@ -54,6 +54,12 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
         bot.sendMessage(chat_id, "Switching off!", "");
         return (WAIT_FOR_MESSAGES_LIMIT);
     }
+    else if (text == "/clear")
+    {
+        bot.sendMessage(chat_id, "The display has been cleared", "");
+        ft_clear_display(true);
+        return (0);
+    }
     else
     {
         message = text;
@@ -62,7 +68,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
         text.clear();
         text = "Roman's badge now says:\n\"" + message + "\"";
         bot.sendMessage(chat_id, text, "");
-        return (WAIT_FOR_MESSAGES_LIMIT);
+        return (0);
     }
     return (0);
 }
@@ -141,6 +147,7 @@ void  telegram_bot_init(short cycles)
         numNewMessages = ft_check_incomming_messages(cycles);
     }
     esp_wifi_set_mode(WIFI_MODE_NULL);
+    ft_clear_display(true);
     DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
     if (globals.reboot)
         ft_go_to_sleep(10);
