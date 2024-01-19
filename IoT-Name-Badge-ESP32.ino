@@ -31,6 +31,8 @@ void  setup(void)
         DEBUG_PRINTF("\n\nDEVICE START\nversion %f\n", float(SOFTWARE_VERSION));
         DEBUG_PRINTF("cycle number %d\n\n", g_cycle_counter);
     #endif
+    adc1_config_width(ADC_WIDTH_12Bit);
+    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_11db);
     ft_power_down_recovery();
     ft_display_init();
     shall_I_start();
