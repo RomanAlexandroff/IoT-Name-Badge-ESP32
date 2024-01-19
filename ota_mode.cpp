@@ -30,6 +30,7 @@ short  ft_ota_mode(String chat_id)
     uint8_t     mac[6];
 
     globals.ota = true;
+    ft_display_animated_text_with_font("OTA ACTIVE");
     ssid = WiFi.SSID();
     nameprefix = "IoT Name Badge";
     maxlen = strlen(nameprefix) + 7;
@@ -45,16 +46,22 @@ short  ft_ota_mode(String chat_id)
         else
             type = "filesystem";
         bot.sendMessage(chat_id, "Updating...", "");
+        ft_display_animated_text_with_font("UPDATING...");
     });
     ArduinoOTA.onEnd([chat_id]() {
         bot.sendMessage(chat_id, "Successfully updated!", "");
+        ft_display_animated_text_with_font("SUCCESS");
+        ft_delay(3000);
         ft_clear_display(true);
-        ft_go_to_sleep(10);
     });
     ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     });
     ArduinoOTA.onError([chat_id](ota_error_t error) {
         bot.sendMessage(chat_id, "Something went wrong. Updating was not completed. Try again", "");
+        ft_display_animated_text_with_font("FAILED");
+        ft_delay(3000);
+        ft_clear_display(true);
+        ft_go_to_sleep(10);
     });
     ArduinoOTA.begin();
     DEBUG_PRINTF("\n\nIoT Name Badge\nOTA update mode initialized.\n\n", "");
