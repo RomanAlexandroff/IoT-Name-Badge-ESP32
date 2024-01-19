@@ -28,7 +28,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.14
+#define SOFTWARE_VERSION        2.15
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -59,7 +59,7 @@ static short  ft_get_time(int* p_hour, int* p_minute, int* p_week_day);
 unsigned int  ft_home_mode(bool* p_errase_display);
 short         IRAM_ATTR shall_I_start(void);
 void          IRAM_ATTR ft_delay(unsigned int time_in_millis);
-void          ft_go_to_sleep(unsigned int time_in_millis);
+void          ft_go_to_sleep(uint64_t time_in_millis);
 void          ft_power_down_recovery(void);
 
 #endif
