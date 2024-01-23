@@ -42,6 +42,7 @@
 #define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
 #define SLEEP_DURATION          60000ul                               // in milliseconds
+#define BATTERY_USE_COEF        0.001
 
 void          IRAM_ATTR ft_display_bitmap(const unsigned char* output);
 void          IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output);

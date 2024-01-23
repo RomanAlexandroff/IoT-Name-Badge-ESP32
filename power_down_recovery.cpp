@@ -25,6 +25,7 @@ void  ft_power_down_recovery(void)
         case ESP_RST_POWERON:
         case ESP_RST_BROWNOUT:
             g_cycle_counter = 0;
+            g_historic_time = millis() / 100;
             globals.power_on = true;
             globals.reboot = false;
             globals.panic = false;

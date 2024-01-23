@@ -146,8 +146,10 @@ void  telegram_bot_init(short cycles)
         }
         numNewMessages = ft_check_incomming_messages(cycles);
     }
+    bot.sendMessage(CHAT_ID, String("The Historic time is currently on " + g_historic_time), "");
     esp_wifi_set_mode(WIFI_MODE_NULL);
-    ft_clear_display(true);
+    if (globals.ota)
+        ft_clear_display(true);
     DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
     if (globals.reboot)
         ft_go_to_sleep(10);

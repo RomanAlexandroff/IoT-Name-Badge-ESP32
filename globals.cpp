@@ -21,6 +21,7 @@ WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
+RTC_DATA_ATTR unsigned long   g_historic_time;
 
 struct GlobalsManagement globals = {
     .power_on = false,

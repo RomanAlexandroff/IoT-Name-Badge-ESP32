@@ -23,6 +23,7 @@ void  ft_go_to_sleep(uint64_t time_in_millis)
     DEBUG_PRINTF("Going to sleep for %u seconds.\n", time_in_millis / 1000);
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
     esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
+    g_historic_time += (millis() / 100);
     esp_deep_sleep_start();
 }
 
@@ -36,6 +37,7 @@ short  ft_battery_check(void)
 {
     short i;
     short battery;
+    short battery_timed;
 
     i = 4;
     while (i)
@@ -49,6 +51,11 @@ short  ft_battery_check(void)
         battery = 0;
     if (battery >= 100)
         battery = 100;
+/*    battery_timed = 100 - g_historic_time * BATTERY_USE_COEF;
+    if ((battery - battery_timed) < 10)
+        battery = (battery + battery_timed) / 2;
+    else
+        battery = battery_timed;*/
     return (battery);
 }
  
