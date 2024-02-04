@@ -44,10 +44,11 @@ extern WiFiMulti wifiMulti;
 extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
 
-extern RTC_DATA_ATTR unsigned short  g_cycle_counter;
-extern RTC_DATA_ATTR unsigned long   g_historic_time;
+extern RTC_DATA_ATTR unsigned short           g_cycle_counter;
+extern RTC_DATA_ATTR volatile unsigned long   g_historic_time;
 
 struct GlobalsManagement {
+    short battery;
     bool  power_on;
     bool  reboot;
     bool  panic;

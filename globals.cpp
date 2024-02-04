@@ -20,10 +20,11 @@ WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
-RTC_DATA_ATTR unsigned short  g_cycle_counter;
-RTC_DATA_ATTR unsigned long   g_historic_time;
+RTC_DATA_ATTR unsigned short           g_cycle_counter;
+RTC_DATA_ATTR volatile unsigned long   g_historic_time;                                 // in seconds
 
 struct GlobalsManagement globals = {
+    .battery = 0,
     .power_on = false,
     .reboot = false,
     .panic = false,

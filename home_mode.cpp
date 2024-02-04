@@ -50,18 +50,16 @@ static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
 
 unsigned int  ft_home_mode(bool* p_errase_display)
 {
-    short         battery;
     int           hour;
     int           minute;
     int           week_day;
     unsigned int  time_of_sleep;
 
     time_of_sleep = 1800000;                  //30 minutes
-    battery = ft_battery_check();
-    DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", battery);
-    if (battery <= 20)
+    DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", globals.battery);
+    if (globals.battery <= 20)
     {
-        ft_display_battery_state(battery);
+        ft_display_battery_state();
         *p_errase_display = true;
     }
     else

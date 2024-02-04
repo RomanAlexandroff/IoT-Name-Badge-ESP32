@@ -17,6 +17,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
+#include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <Wire.h>
@@ -28,7 +29,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.15
+#define SOFTWARE_VERSION        2.16
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -42,12 +43,12 @@
 #define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
 #define SLEEP_DURATION          60000ul                               // in milliseconds
-#define BATTERY_USE_COEF        0.001
+#define BATTERY_USE_COEF        0.0004233
 
 void          IRAM_ATTR ft_display_bitmap(const unsigned char* output);
 void          IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output);
 void          IRAM_ATTR ft_display_animated_text_with_font(String output);
-void          IRAM_ATTR ft_display_battery_state(short battery);
+void          IRAM_ATTR ft_display_battery_state(void);
 bool          IRAM_ATTR ft_clear_display(bool errase_display);
 void          IRAM_ATTR ft_display_init(void);
 short         ft_battery_check(void);

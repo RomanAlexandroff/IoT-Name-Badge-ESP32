@@ -21,9 +21,8 @@ void  setup(void)
     long          cycle_length;
     volatile long run_time;
     unsigned int  time_of_sleep;
-    short         battery;
 
-    cycle_length = 50000;
+    cycle_length = 60000;
     run_time = 0;
     time_of_sleep = 0;
     #ifdef DEBUG
@@ -31,23 +30,23 @@ void  setup(void)
         DEBUG_PRINTF("\n\nDEVICE START\nversion %f\n", float(SOFTWARE_VERSION));
         DEBUG_PRINTF("cycle number %d\n\n", g_cycle_counter);
     #endif
-    adc1_config_width(ADC_WIDTH_12Bit);
-    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_11db);
+    ft_battery_check();
     ft_power_down_recovery();
     ft_display_init();
     shall_I_start();
-    battery = ft_battery_check();
     ft_display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
     ft_delay(8000);
-    if (battery <= 20)
+    if (globals.battery <= 20)
     {
-        ft_display_battery_state(battery);
-        cycle_length = cycle_length + 6000 * (21 - battery);
+        ft_display_battery_state();
+        cycle_length = cycle_length + 6000 * (21 - globals.battery);
         ft_delay(8000);
     }
     ft_display_bitmap(badge_bitmap_slide_4_github);
     ft_delay(8000);
-    ft_display_bitmap(badge_bitmap_slide_3_Roman);
+    ft_display_bitmap(badge_bitmap_your_ad_slide);
+    ft_delay(8000);
+    ft_display_bitmap(badge_bitmap_name_slide_v2);
     display.powerOff();
     g_cycle_counter++;
     if (g_cycle_counter >= 65004)

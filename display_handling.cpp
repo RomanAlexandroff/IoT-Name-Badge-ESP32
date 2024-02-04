@@ -69,7 +69,7 @@ void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                  
     while (display.nextPage());
 }
 
-void  IRAM_ATTR ft_display_battery_state(short battery)
+void  IRAM_ATTR ft_display_battery_state(void)
 {
     String    output;
     int16_t   tbx;
@@ -79,7 +79,7 @@ void  IRAM_ATTR ft_display_battery_state(short battery)
     uint16_t  y;
     uint16_t  x;
 
-    output = "Low battery\n" + String(battery) + "%";
+    output = "Low battery " + String(globals.battery) + "%";
     display.setFont(&FreeSansBold24pt7b);
     display.setTextColor(GxEPD_BLACK);
     display.setRotation(1);

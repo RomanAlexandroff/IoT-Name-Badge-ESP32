@@ -33,7 +33,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     {
         message = "Connected to " + String(WiFi.SSID());   
         message += ". Signal strength is " + String(WiFi.RSSI()) + " dBm. ";
-        message += "Battery is " + String(ft_battery_check()) + "% charged, ";
+        message += "Battery is " + String(globals.battery) + "% charged, ";
         message += "software version " + String(SOFTWARE_VERSION);
         bot.sendMessage(chat_id, message, "Markdown");
         return (0);
@@ -146,7 +146,6 @@ void  telegram_bot_init(short cycles)
         }
         numNewMessages = ft_check_incomming_messages(cycles);
     }
-    bot.sendMessage(CHAT_ID, String("The Historic time is currently on " + g_historic_time), "");
     esp_wifi_set_mode(WIFI_MODE_NULL);
     if (globals.ota)
         ft_clear_display(true);
