@@ -24,10 +24,9 @@ RTC_DATA_ATTR unsigned short           g_cycle_counter;
 RTC_DATA_ATTR volatile unsigned long   g_historic_time;                                 // in seconds
 
 struct GlobalsManagement globals = {
+    .reason = ESP_RST_UNKNOWN,
     .battery = 0,
-    .power_on = false,
     .reboot = false,
-    .panic = false,
     .ota = false
 };
  

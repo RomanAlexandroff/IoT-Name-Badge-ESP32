@@ -129,20 +129,16 @@ void  telegram_bot_init(short cycles)
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
         DEBUG_PRINTF("\nTelegram bot initialised\n", "");
-        if (globals.power_on)
+        switch (globals.reason)
         {
-            bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
-            globals.power_on = false;
-        }
-        if (globals.panic)
-        {
-            bot.sendMessage(CHAT_ID, "Don't panic, but my Core has just panicked!", "");
-            delay(3000);
-            bot.sendMessage(CHAT_ID, "You were trying to update me, weren't you? Well, let's try again", "");
-            delay(2000);
-            ft_check_incomming_messages(ft_ota_mode(CHAT_ID));
-            globals.panic = false;
-            ft_go_to_sleep(10);
+            case ESP_RST_POWERON:
+            case ESP_RST_BROWNOUT:
+                bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
+                break;
+            case ESP_RST_PANIC:
+                bot.sendMessage(CHAT_ID, "Don't panic, but my Core has just panicked!", "");
+                cycles = 0;
+                break;
         }
         numNewMessages = ft_check_incomming_messages(cycles);
     }

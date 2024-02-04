@@ -29,7 +29,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.17
+#define SOFTWARE_VERSION        2.18
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG

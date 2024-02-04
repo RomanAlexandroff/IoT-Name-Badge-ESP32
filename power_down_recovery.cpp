@@ -17,18 +17,13 @@
 
 void  ft_power_down_recovery(void)
 {
-    esp_reset_reason_t  reason;
-
-    reason = esp_reset_reason();
-    switch (reason)
+    globals.reason = esp_reset_reason();
+    switch (globals.reason)
     {
         case ESP_RST_POWERON:
         case ESP_RST_BROWNOUT:
             ft_display_bitmap_with_refresh(badge_bitmap_boot_up_screen);
             g_cycle_counter = 0;
-            globals.power_on = true;
-            globals.reboot = false;
-            globals.panic = false;
             DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n", "");
             DEBUG_PRINTF("Power-down Recovery was performed.\nThe cycle counter was set to %d\n", g_cycle_counter);
             ft_delay(3000);
@@ -42,7 +37,6 @@ void  ft_power_down_recovery(void)
             break;
         case ESP_RST_PANIC:
             DEBUG_PRINTF("\nReset reason: Panic/exception reset\n", "");
-            globals.panic = true;
             break;
     }
 }

@@ -48,12 +48,11 @@ extern RTC_DATA_ATTR unsigned short           g_cycle_counter;
 extern RTC_DATA_ATTR volatile unsigned long   g_historic_time;
 
 struct GlobalsManagement {
-    short battery;
-    bool  power_on;
-    bool  reboot;
-    bool  panic;
-    bool  ota;
-    };
+    esp_reset_reason_t reason;
+    short              battery;
+    bool               reboot;
+    bool               ota;
+};
 extern struct GlobalsManagement globals;
 
 #endif
