@@ -28,29 +28,12 @@ void  setup(void)
     #ifdef DEBUG
         Serial.begin(115200);
         DEBUG_PRINTF("\n\nDEVICE START\nversion %f\n", float(SOFTWARE_VERSION));
-        DEBUG_PRINTF("cycle number %d\n\n", g_cycle_counter);
     #endif
     ft_battery_check();
-    ft_power_down_recovery();
     ft_display_init();
+    ft_power_down_recovery();
     shall_I_start();
-    ft_display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
-    ft_delay(8000);
-    if (globals.battery <= 20)
-    {
-        ft_display_battery_state();
-        cycle_length = cycle_length + 6000 * (21 - globals.battery);
-        ft_delay(8000);
-    }
-    ft_display_bitmap(badge_bitmap_slide_4_github);
-    ft_delay(8000);
-    ft_display_bitmap(badge_bitmap_your_ad_slide);
-    ft_delay(8000);
-    ft_display_bitmap(badge_bitmap_name_slide_v2);
-    display.powerOff();
-    g_cycle_counter++;
-    if (g_cycle_counter >= 65004)
-        g_cycle_counter = 0;
+    ft_run_slideshow(&cycle_length);
     run_time = millis();
     time_of_sleep = cycle_length - run_time;
     if (time_of_sleep < 10)

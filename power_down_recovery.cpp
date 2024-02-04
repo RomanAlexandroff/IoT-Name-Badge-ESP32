@@ -24,15 +24,21 @@ void  ft_power_down_recovery(void)
     {
         case ESP_RST_POWERON:
         case ESP_RST_BROWNOUT:
+            ft_display_bitmap_with_refresh(badge_bitmap_boot_up_screen);
             g_cycle_counter = 0;
             globals.power_on = true;
             globals.reboot = false;
             globals.panic = false;
             DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n", "");
             DEBUG_PRINTF("Power-down Recovery was performed.\nThe cycle counter was set to %d\n", g_cycle_counter);
+            ft_delay(3000);
             break;
         case ESP_RST_SW:
+            g_cycle_counter++;
+            if (g_cycle_counter >= 65004)
+                g_cycle_counter = 0;
             DEBUG_PRINTF("\nReset reason: Software reset\n", "");
+            DEBUG_PRINTF("cycle number %d\n\n", g_cycle_counter);
             break;
         case ESP_RST_PANIC:
             DEBUG_PRINTF("\nReset reason: Panic/exception reset\n", "");

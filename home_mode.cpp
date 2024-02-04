@@ -55,7 +55,7 @@ unsigned int  ft_home_mode(bool* p_errase_display)
     int           week_day;
     unsigned int  time_of_sleep;
 
-    time_of_sleep = 1800000;                  //30 minutes
+    time_of_sleep = HOME_SLEEP_TIME;
     DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", globals.battery);
     if (globals.battery <= 20)
     {

@@ -109,6 +109,23 @@ bool  IRAM_ATTR ft_clear_display(bool errase_display)                          /
     return (errase_display);
 }
 
+void  ft_run_slideshow(long* p_cycle_length)
+{
+    ft_display_bitmap_with_refresh(badge_bitmap_slide_6_logo);
+    ft_delay(8000);
+    if (globals.battery <= 20)
+    {
+        ft_display_battery_state();
+        *p_cycle_length = *p_cycle_length + 6000 * (21 - globals.battery);
+        ft_delay(8000);
+    }
+    ft_display_bitmap(badge_bitmap_slide_4_github);
+    ft_delay(8000);
+    ft_display_bitmap(badge_bitmap_your_ad_slide);
+    ft_delay(8000);
+    ft_display_bitmap(badge_bitmap_name_slide_v2);
+    display.powerOff();
+}
 
 void  IRAM_ATTR ft_display_init(void)
 {
