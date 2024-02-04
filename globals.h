@@ -44,8 +44,7 @@ extern WiFiMulti wifiMulti;
 extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
 
-extern RTC_DATA_ATTR unsigned short           g_cycle_counter;
-extern RTC_DATA_ATTR volatile unsigned long   g_historic_time;
+extern RTC_DATA_ATTR unsigned short g_cycle_counter;
 
 struct GlobalsManagement {
     esp_reset_reason_t reason;

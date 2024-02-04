@@ -20,8 +20,7 @@ WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
-RTC_DATA_ATTR unsigned short           g_cycle_counter;
-RTC_DATA_ATTR volatile unsigned long   g_historic_time;                                 // in seconds
+RTC_DATA_ATTR unsigned short  g_cycle_counter;
 
 struct GlobalsManagement globals = {
     .reason = ESP_RST_UNKNOWN,

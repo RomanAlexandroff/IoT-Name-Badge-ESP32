@@ -23,7 +23,6 @@ void  ft_go_to_sleep(uint64_t time_in_millis)
     DEBUG_PRINTF("Going to sleep for %u seconds.\n", time_in_millis / 1000);
     DEBUG_PRINTF("\nDEVICE STOP\n\n\n", "");
     esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
-    g_historic_time += (millis() / 1000);
     esp_deep_sleep_start();
 }
 
@@ -41,7 +40,6 @@ short  ft_battery_check(void)
     i = 10;
     adc1_config_width(ADC_WIDTH_12Bit);
     adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_11db);
-    g_historic_time += millis() / 1000;
     while (i)
     {
         globals.battery += ceil((adc1_get_raw(ADC1_CHANNEL_0) - 367) / 12.06);                 // see ReadMe regarding these constants
