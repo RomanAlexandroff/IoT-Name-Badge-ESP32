@@ -27,6 +27,7 @@ void  ft_power_down_recovery(void)
             DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n", "");
             DEBUG_PRINTF("Power-down Recovery was performed.\nThe cycle counter was set to %d\n", g_cycle_counter);
             ft_delay(3000);
+            ft_clear_display(true);
             break;
         case ESP_RST_SW:
             g_cycle_counter++;
