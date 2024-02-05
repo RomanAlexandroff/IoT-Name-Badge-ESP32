@@ -20,8 +20,13 @@ void  ft_power_down_recovery(void)
     globals.reason = esp_reset_reason();
     switch (globals.reason)
     {
-        case ESP_RST_POWERON:
         case ESP_RST_BROWNOUT:
+            ft_display_animated_text_with_font("Dead battery\nCharge me");
+            display.powerOff();
+            esp_sleep_enable_timer_wakeup(DEAD_BATTERY_SLEEP);
+            esp_deep_sleep_start();
+            break;
+        case ESP_RST_POWERON:
             ft_display_bitmap_with_refresh(badge_bitmap_boot_up_screen);
             g_cycle_counter = 0;
             DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n", "");

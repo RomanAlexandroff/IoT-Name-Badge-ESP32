@@ -44,6 +44,7 @@
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
 #define SLEEP_DURATION          60000ul                               // in milliseconds
 #define HOME_SLEEP_TIME         1800000                               // in milliseconds, 30 minutes
+#define DEAD_BATTERY_SLEEP      7200000                               // in milliseconds, 2 HOURS
 
 void          IRAM_ATTR ft_display_bitmap(const unsigned char* output);
 void          IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output);
