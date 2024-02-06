@@ -71,7 +71,8 @@ void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                  
 
 void  IRAM_ATTR ft_display_battery_state(void)
 {
-    String    output;
+    ft_display_bitmap(badge_bitmap_low_battery);
+/*    String    output;
     int16_t   tbx;
     int16_t   tby;
     uint16_t  tbw;
@@ -79,7 +80,7 @@ void  IRAM_ATTR ft_display_battery_state(void)
     uint16_t  y;
     uint16_t  x;
 
-    output = "Low battery " + String(globals.battery) + "%";
+    output = "            " + String(globals.battery) + "%";
     display.setFont(&FreeSansBold24pt7b);
     display.setTextColor(GxEPD_BLACK);
     display.setRotation(1);
@@ -95,7 +96,7 @@ void  IRAM_ATTR ft_display_battery_state(void)
         display.setCursor(x, y);
         display.print(output);
     }
-    while (display.nextPage());
+    while (display.nextPage());*/
 }
 
 bool  IRAM_ATTR ft_clear_display(bool errase_display)                          // flickers
@@ -116,7 +117,7 @@ void  ft_run_slideshow(long* p_cycle_length)
     if (globals.battery <= 20)
     {
         ft_display_battery_state();
-        *p_cycle_length = *p_cycle_length + 6000 * (21 - globals.battery);
+        *p_cycle_length = *p_cycle_length + 8000 * (21 - globals.battery);
         ft_delay(8000);
     }
     ft_display_bitmap(badge_bitmap_slide_4_github);
