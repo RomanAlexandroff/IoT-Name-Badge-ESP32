@@ -21,7 +21,7 @@ void  ft_power_down_recovery(void)
     switch (globals.reason)
     {
         case ESP_RST_BROWNOUT:
-            ft_display_animated_text_with_font("Dead battery\nCharge me");
+            ft_display_bitmap_with_refresh(badge_bitmap_empty_battery);
             display.powerOff();
             esp_sleep_enable_timer_wakeup(DEAD_BATTERY_SLEEP);
             esp_deep_sleep_start();
