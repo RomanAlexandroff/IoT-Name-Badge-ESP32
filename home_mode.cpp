@@ -48,7 +48,7 @@ static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
     return (1);
 }
 
-unsigned int  ft_home_mode(bool* p_errase_display)
+unsigned int  ft_home_mode(void)
 {
     int           hour;
     int           minute;
@@ -58,14 +58,13 @@ unsigned int  ft_home_mode(bool* p_errase_display)
     time_of_sleep = HOME_SLEEP_TIME;
     DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", globals.battery);
     if (globals.battery <= 20)
-    {
         ft_display_battery_state();
-        *p_errase_display = true;
-    }
     else
         telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
+    ft_display_bitmap_with_refresh(badge_bitmap_home_mode);
     if (ft_get_time(&hour, &minute, &week_day) && (hour >= 21 || hour <= 5))
     {
+        ft_display_bitmap(badge_bitmap_home_mode_night_sleep);
         if (hour >= 21 && hour <= 23)
             time_of_sleep = (6 + 24 - hour) * 3600000 - (minute * 60000);
         if (hour >= 0 && hour <= 5)
