@@ -30,7 +30,6 @@ short  ft_ota_mode(String chat_id)
     uint8_t     mac[6];
 
     globals.ota = true;
-    ft_display_animated_text_with_font("OTA ACTIVE");
     ssid = WiFi.SSID();
     nameprefix = "IoT Name Badge";
     maxlen = strlen(nameprefix) + 7;
@@ -46,11 +45,11 @@ short  ft_ota_mode(String chat_id)
         else
             type = "filesystem";
         bot.sendMessage(chat_id, "Updating...", "");
-        ft_display_animated_text_with_font("UPDATING...");
+        ft_display_bitmap(badge_bitmap_ota_updating);
     });
     ArduinoOTA.onEnd([chat_id]() {
         bot.sendMessage(chat_id, "Successfully updated!", "");
-        ft_display_animated_text_with_font("SUCCESS");
+        ft_display_bitmap(badge_bitmap_ota_success);
         ft_delay(3000);
         ft_clear_display(true);
     });
@@ -58,7 +57,7 @@ short  ft_ota_mode(String chat_id)
     });
     ArduinoOTA.onError([chat_id](ota_error_t error) {
         bot.sendMessage(chat_id, "Something went wrong. Updating was not completed. Try again", "");
-        ft_display_animated_text_with_font("FAILED");
+        ft_display_bitmap(badge_bitmap_ota_fail);
         ft_delay(3000);
         ft_clear_display(true);
         ft_go_to_sleep(10);
@@ -66,6 +65,7 @@ short  ft_ota_mode(String chat_id)
     ArduinoOTA.begin();
     DEBUG_PRINTF("\n\nIoT Name Badge\nOTA update mode initialized.\n\n", "");
     DEBUG_PRINTF("Wi-Fi network: %s\n", ssid.c_str());
+    ft_display_bitmap_with_refresh(badge_bitmap_ota_active);
     message = "OTA mode activated. \n\nConnected to\n" + String(ssid);
     message += "\n\nConnect to this Wi-Fi and use Arduino IDE";
     message += "\n\nTo cancel the OTA update write any other command.";
