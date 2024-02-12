@@ -48,8 +48,8 @@ short IRAM_ATTR shall_I_start(void)
             if (WiFi.SSID(i) == HOME_SSID)
             {
                 DEBUG_PRINTF("Home network detected. Going into Home mode\n", "");
-                time_of_sleep = ft_home_mode();
-                ft_clear_display(true);
+                time_of_sleep = ft_home_mode(&errase_display);
+                errase_display = ft_clear_display(errase_display);
                 ft_go_to_sleep(time_of_sleep);
             }
             else if (WiFi.SSID(i) == OFFICE_SSID    || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID    ||

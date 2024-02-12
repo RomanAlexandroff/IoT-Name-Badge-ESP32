@@ -29,7 +29,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.19
+#define SOFTWARE_VERSION        2.20
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 //#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -60,7 +60,7 @@ void          telegram_bot_init(short cycles);
 void          IRAM_ATTR ft_wifi_list(void);
 short         ft_ota_mode(String chat_id);
 static short  ft_get_time(int* p_hour, int* p_minute, int* p_week_day);
-unsigned int  ft_home_mode(void);
+unsigned int  ft_home_mode(bool* p_errase_display);
 short         IRAM_ATTR shall_I_start(void);
 void          IRAM_ATTR ft_delay(unsigned int time_in_millis);
 void          ft_go_to_sleep(uint64_t time_in_millis);
