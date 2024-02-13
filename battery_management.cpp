@@ -6,11 +6,10 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2024/02/13 10:32:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2024/02/13 10:32:16                                ###    ###   ###     ###         */
+/*   Updated: 2024/02/13 15:52:46                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
-/*   This file contains all the little utility functions that are not too important to have       */
-/*   their own personal files. They are not necesarrily connected with each other logically.      */
+/*   Battery charge measurement utility with automatic calibration.                               */
 /*                                                                                                */
 /* ********************************************************************************************** */
 
