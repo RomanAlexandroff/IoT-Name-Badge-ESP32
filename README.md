@@ -37,7 +37,9 @@ Here's the lowdown on how the IoT Name Badge operates:
 - Multiple Wi-Fi Enabled: Connect to multiple known Wi-Fi networks instead of being restricted to a single network.
 - Telegram Interaction: Write personalized messages onto your badge using the Telegram chat.
 - User Commands: Control some badge functionality via Telegram chat commands.
-- Home Mode: while at home the badge will start checking Wi-Fi less frequently, and when the night comes, it will simply sleep until morning.
+- Home Mode: while at home the badge will sleep through the night until morning, significantly saving battery charge.
+- System Notifications: when the badge has something important to say, it will show it on the display.
+- Battery Measurement Autocalibration: the firmware adapts itself to the ever-changing battery health.
 - OTA Update: Effortlessly update the badge's firmware through Arduino IDE, eliminating the need for disassembly.
 
 ## Future Development
@@ -70,15 +72,17 @@ The OTA functionality added using the native Arduino OTA library.
 #define HOME_PASSWORD        "wifi1_password"
 
 #define UNIVERSITY_SSID      "wifi2_name"
-#define UNIVERSITY_PASSWORD  "wifi2_password"
+#define UNIVERSITY_PASSWORD  "wifi2_password"        // not required for full functionality
 
 #define OFFICE_SSID          "wifi3_name"
-#define OFFICE_PASSWORD      "wifi3_password"
+#define OFFICE_PASSWORD      "wifi3_password"        // not required for full functionality
 ```
  
-## Calculating Constants for the Battery Charge Function
+## Calculating Default Constants for the Battery Charge Function
 
 You will need to check the following little utility:
 https://github.com/RomanAlexandroff/ESP-Battery-Charge-Utility
       
 It was designed to be a universal solution for battery charge level detection in ESP-based projects and has all the instructions inside of it.
+
+You may skip this step and use the default constants provided in the header file. The battery measuremet will autocalibrate itself after a few battery charge-discharge cycles. But expect to see inaccurate readings for a while.
