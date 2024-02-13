@@ -71,8 +71,7 @@ void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                  
 
 void  IRAM_ATTR ft_display_battery_state(void)
 {
-    ft_display_bitmap(badge_bitmap_low_battery);
-/*    String    output;
+    String    output;
     int16_t   tbx;
     int16_t   tby;
     uint16_t  tbw;
@@ -80,23 +79,19 @@ void  IRAM_ATTR ft_display_battery_state(void)
     uint16_t  y;
     uint16_t  x;
 
-    output = "            " + String(globals.battery) + "%";
+    ft_display_bitmap(badge_bitmap_low_battery);
+    output = String(globals.battery) + "%";
+    display.setPartialWindow(138, 90, 21, 24);
     display.setFont(&FreeSansBold24pt7b);
     display.setTextColor(GxEPD_BLACK);
-    display.setRotation(1);
-    display.getTextBounds(output, 0, 0, &tbx, &tby, &tbw, &tbh);
-    y = (display.height() - tbh) / 2;
-    x = display.width();
-    display.setPartialWindow(0, 0, display.width(), display.height());
     display.setRotation(1);
     display.firstPage();
     do
     {
-        display.fillScreen(GxEPD_WHITE);
-        display.setCursor(x, y);
+        display.setCursor(138, 90);
         display.print(output);
     }
-    while (display.nextPage());*/
+    while (display.nextPage());
 }
 
 bool  IRAM_ATTR ft_clear_display(bool errase_display)                          // flickers
