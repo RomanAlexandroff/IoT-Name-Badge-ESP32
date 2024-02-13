@@ -31,25 +31,4 @@ void  IRAM_ATTR ft_delay(unsigned int time_in_millis)
     esp_sleep_enable_timer_wakeup(time_in_millis * 1000);
     esp_light_sleep_start();
 }
-
-short  ft_battery_check(void)
-{
-    short i;
-    short battery_timed;
-
-    i = 10;
-    adc1_config_width(ADC_WIDTH_12Bit);
-    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_11db);
-    while (i)
-    {
-        globals.battery += ceil((adc1_get_raw(ADC1_CHANNEL_0) - 367) / 12.06);                 // see ReadMe regarding these constants
-        i--;
-    }
-    globals.battery = globals.battery / 10;                                                    // counting average of 10 samples
-    if (globals.battery <= 0)
-        globals.battery = 0;
-    if (globals.battery >= 100)
-        globals.battery = 100;
-    return (globals.battery);
-}
  

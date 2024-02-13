@@ -45,6 +45,7 @@ extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
 
 extern RTC_DATA_ATTR unsigned short g_cycle_counter;
+extern RTC_DATA_ATTR bool           g_eeprom_state;
 
 struct GlobalsManagement {
     esp_reset_reason_t reason;

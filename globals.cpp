@@ -21,6 +21,7 @@ WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
 RTC_DATA_ATTR unsigned short  g_cycle_counter;
+RTC_DATA_ATTR bool            g_eeprom_state;
 
 struct GlobalsManagement globals = {
     .reason = ESP_RST_UNKNOWN,

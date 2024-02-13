@@ -20,6 +20,7 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
+#include "EEPROM.h"
 #include <Wire.h>
 #include <time.h>
 #include <stdio.h>
@@ -29,7 +30,7 @@
 #include "credentials.h"
 #include "globals.h"
 
-#define SOFTWARE_VERSION        2.20
+#define SOFTWARE_VERSION        3.00
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 //#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -39,6 +40,11 @@
   #define DEBUG_PRINTF(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t)
 #endif
+#define EEPROM_SIZE             8                                     // stores 2 unsigned shorts with 2-bytes buffers behind each
+#define MAX_STATE_ADDR          0
+#define MIN_STATE_ADDR          4
+#define BATTERY_DEFAULT_MIN     367                                   // see ReadMe regarding this constant
+#define BATTERY_DEFAULT_COEFF   12.06                                 // see ReadMe regarding this constant
 #define CONNECT_TIMEOUT         5000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.
 #define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
 #define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
@@ -53,7 +59,10 @@ void          IRAM_ATTR ft_display_battery_state(void);
 bool          IRAM_ATTR ft_clear_display(bool errase_display);
 void          ft_run_slideshow(long* p_cycle_length);
 void          IRAM_ATTR ft_display_init(void);
+void          IRAM_ATTR ft_eeprom_init(void);
+void          IRAM_ATTR ft_battery_state(const int address);
 short         ft_battery_check(void);
+void          IRAM_ATTR ft_battery_init(void);
 short         IRAM_ATTR ft_new_messages(short numNewMessages);
 short         IRAM_ATTR ft_check_incomming_messages(short cycles);
 void          telegram_bot_init(short cycles);

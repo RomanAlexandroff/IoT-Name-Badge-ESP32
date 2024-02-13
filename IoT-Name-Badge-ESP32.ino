@@ -29,9 +29,11 @@ void  setup(void)
         Serial.begin(115200);
         DEBUG_PRINTF("\n\nDEVICE START\nversion %f\n", float(SOFTWARE_VERSION));
     #endif
-    ft_battery_check();
+    ft_eeprom_init();
+    ft_battery_init();
     ft_display_init();
     ft_power_down_recovery();
+    ft_battery_check();
     shall_I_start();
     ft_run_slideshow(&cycle_length);
     run_time = millis();
