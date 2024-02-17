@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/10/18 17:05:00                                ###    ###   ###     ###         */
+/*   Updated: 2024/02/13 15:52:46                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /*   This is the Main file of the IoT Name Badge Project.                                         */

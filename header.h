@@ -6,7 +6,7 @@
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
 /*   Created: 2023/09/27 18:14:16                                 #+#    #+#   #+#     #+#        */
-/*   Updated: 2023/10/18 17:05:12                                ###    ###   ###     ###         */
+/*   Updated: 2024/02/13 15:52:46                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
 /* ********************************************************************************************** */
@@ -32,7 +32,7 @@
 
 #define SOFTWARE_VERSION        3.00
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
-//#define DEBUG                                                         // comment out this line to turn off Serial output
+#define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
   #define DEBUG_PRINTF(x, y) Serial.printf(x, y)
   #define DEBUG_PRINTS(q, w, e, r, t) Serial.printf(q, w, e, r, t)
