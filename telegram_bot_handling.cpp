@@ -18,7 +18,7 @@
 
 #include "header.h"
 
-short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
+static short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
 {
     String      message;
 
@@ -73,7 +73,7 @@ short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     return (0);
 }
 
-short ft_new_messages(short numNewMessages)                                       // function to handle what happens when you receive new messages
+static short ft_new_messages(short numNewMessages)                                // function to handle what happens when you receive new messages
 {
     short   cycles;
     String  chat_id;
@@ -96,7 +96,7 @@ short ft_new_messages(short numNewMessages)                                     
     return (cycles);
 }
 
-short  ft_check_incomming_messages(short cycles)
+static short  ft_check_incomming_messages(short cycles)
 {
     short numNewMessages;
 
@@ -132,7 +132,6 @@ void  telegram_bot_init(short cycles)
         switch (globals.reason)
         {
             case ESP_RST_POWERON:
-            case ESP_RST_BROWNOUT:
                 bot.sendMessage(CHAT_ID, "Hello! I am the IoT Name Badge. I am ON and ready for work!", "");
                 break;
             case ESP_RST_PANIC:
