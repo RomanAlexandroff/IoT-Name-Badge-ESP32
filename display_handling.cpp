@@ -72,17 +72,27 @@ void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                  
 void  IRAM_ATTR ft_display_battery_state(void)
 {
     String    output;
+    int16_t   text_x;
+    int16_t   text_y;
+    uint16_t  text_width;
+    uint16_t  text_height;
+    uint16_t  y;
+    uint16_t  x;
 
     ft_display_bitmap(badge_bitmap_low_battery);
     output = String(globals.battery) + "%";
-    display.setPartialWindow(138, 90, 21, 24);
+    display.getTextBounds(output, 0, 0, &text_x, &text_y, &text_width, &text_height);
+  // center bounding box by transposition of origin:
+    x = ((display.width() - text_width) / 2) - text_x + 60;
+    y = ((display.height() - text_height) / 2) - text_y;
+    display.setRotation(1);                                      // 0 for vertical display, 1 for horizontal rotated right 90 degrees
+    display.setPartialWindow(x, y, text_width, text_height);     // x, y, width, height
     display.setFont(&FreeSansBold24pt7b);
     display.setTextColor(GxEPD_BLACK);
-    display.setRotation(1);
     display.firstPage();
     do
     {
-        display.setCursor(138, 90);
+        display.setCursor(x, y);                                 // x and y coordinates (for vertical display)
         display.print(output);
     }
     while (display.nextPage());
