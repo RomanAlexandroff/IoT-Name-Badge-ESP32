@@ -16,7 +16,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define SOFTWARE_VERSION        3.00
+#define SOFTWARE_VERSION        3.03
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
