@@ -72,12 +72,6 @@ void  IRAM_ATTR ft_display_bitmap(const unsigned char* output)                  
 void  IRAM_ATTR ft_display_battery_state(void)
 {
     String    output;
-    int16_t   tbx;
-    int16_t   tby;
-    uint16_t  tbw;
-    uint16_t  tbh;
-    uint16_t  y;
-    uint16_t  x;
 
     ft_display_bitmap(badge_bitmap_low_battery);
     output = String(globals.battery) + "%";
@@ -129,7 +123,4 @@ void  IRAM_ATTR ft_display_init(void)
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SS_PIN);
     display.init(115200);
 }
-
-
-
  
