@@ -27,30 +27,7 @@
 #include <esp_system.h>
 #include <driver/adc.h>
 #include "bitmap_library.h"
-#include "credentials.h"
 #include "globals.h"
-
-#define SOFTWARE_VERSION        3.00
-//#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
-#define DEBUG                                                         // comment out this line to turn off Serial output
-#ifdef DEBUG
-  #define DEBUG_PRINTF(x, y) Serial.printf(x, y)
-  #define DEBUG_PRINTS(q, w, e, r, t) Serial.printf(q, w, e, r, t)
-#else
-  #define DEBUG_PRINTF(x, y)
-  #define DEBUG_PRINTS(q, w, e, r, t)
-#endif
-#define EEPROM_SIZE             8                                     // stores 2 unsigned shorts with 2-bytes buffers behind each
-#define MAX_STATE_ADDR          0
-#define MIN_STATE_ADDR          4
-#define BATTERY_DEFAULT_MIN     367                                   // see ReadMe regarding this constant
-#define BATTERY_DEFAULT_COEFF   12.06                                 // see ReadMe regarding this constant
-#define CONNECT_TIMEOUT         5000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.
-#define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
-#define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
-#define SLEEP_DURATION          60000ul                               // in milliseconds
-#define HOME_SLEEP_TIME         1800000                               // in milliseconds, 30 minutes
-#define DEAD_BATTERY_SLEEP      7200000                               // in milliseconds, 2 HOURS
 
 void          IRAM_ATTR ft_display_bitmap(const unsigned char* output);
 void          IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output);
