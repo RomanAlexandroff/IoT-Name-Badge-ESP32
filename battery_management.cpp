@@ -34,6 +34,7 @@ void IRAM_ATTR  ft_eeprom_init(void)
         i = 1;
         DEBUG_PRINTF("\nEEPROM is successfully initialised.\n", "");
         g_eeprom_state = true;
+        return;
     }
     i = 1;
     DEBUG_PRINTF("\nEEPROM was not initialised. Reading and Writing data is unavailable this session.\n", "");
