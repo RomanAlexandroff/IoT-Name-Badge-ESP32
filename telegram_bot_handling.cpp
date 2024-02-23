@@ -13,6 +13,10 @@
 /*   them accordingly.                                                                            */
 /*   WARNING! DO NOT CALL THE ft_go_to_sleep() FUNCTION FROM ANY OF THESE FUNCTIONS! THE DEVICE   */
 /*   WOULD BECOME UNRESPONSIVE TO ANY MESSAGES FROM THE TELEGRAM CHAT!                            */
+/*   The "cycles" variable is also responsible for how long the device stays ON and responds to   */
+/*   the user's messages. E.g. cycles == WAIT_FOR_MESSAGES_LIMIT equals to ≈ 1 second;            */
+/*   cycles == 0 equals to ≈ 2 x WAIT_FOR_MESSAGES_LIMIT seconds; cycles == -32767 equals to      */
+/*   ≈ 2 x (32767 + WAIT_FOR_MESSAGES_LIMIT) seconds.                                             */
 /*                                                                                                */
 /* ********************************************************************************************** */
 
@@ -41,7 +45,11 @@ static short  IRAM_ATTR ft_answer_engine(String chat_id, String text)
     else if (text == ("/" + String(OTA_PASSWORD)) || text == ("/ota " + String(OTA_PASSWORD)))
     {
         bot.sendMessage(chat_id, "Password accepted", "");
-        return (ft_ota_mode(chat_id));
+        DEBUG_PRINTF("\n\nIoT Name Badge\nOTA update mode activated.\n\n", "");
+        bot.sendMessage(chat_id, "OTA mode activated", "");
+        ft_display_bitmap_with_refresh(badge_bitmap_ota_active);
+        globals.ota = true;
+        return (WAIT_FOR_OTA_LIMIT);
     }
     else if (text == "/reboot")
     {
@@ -128,6 +136,7 @@ void  telegram_bot_init(short cycles)
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
+        ft_ota_init(CHAT_ID);
         DEBUG_PRINTF("\nTelegram bot initialised\n", "");
         switch (globals.reason)
         {
@@ -146,6 +155,6 @@ void  telegram_bot_init(short cycles)
         ft_clear_display(true);
     DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
     if (globals.reboot)
-        ft_go_to_sleep(10);
+        ESP.restart();
 }
  

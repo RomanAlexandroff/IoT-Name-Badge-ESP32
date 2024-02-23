@@ -45,7 +45,7 @@ static short  IRAM_ATTR ft_new_messages(short numNewMessages);
 static short  IRAM_ATTR ft_check_incomming_messages(short cycles);
 void          telegram_bot_init(short cycles);
 void          IRAM_ATTR ft_wifi_list(void);
-short         ft_ota_mode(String chat_id);
+void          ft_ota_init(String chat_id);
 static short  ft_get_time(int* p_hour, int* p_minute, int* p_week_day);
 unsigned int  ft_home_mode(bool* p_errase_display);
 short         IRAM_ATTR shall_I_start(void);

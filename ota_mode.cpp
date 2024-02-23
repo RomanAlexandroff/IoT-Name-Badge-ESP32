@@ -20,16 +20,14 @@
 
 #include "header.h"
 
-short  ft_ota_mode(String chat_id) 
+void  ft_ota_init(String chat_id) 
 {
     const char* ssid;
-    String      message;
     uint16_t    maxlen;
     const char* nameprefix;
     char*       fullhostname;
     uint8_t     mac[6];
 
-    globals.ota = true;
     ssid = WiFi.SSID().c_str();
     nameprefix = "IoT Name Badge";
     maxlen = strlen(nameprefix) + 7;
@@ -63,16 +61,8 @@ short  ft_ota_mode(String chat_id)
         ft_display_bitmap(badge_bitmap_ota_fail);
         ft_delay(3000);
         ft_clear_display(true);
-        ft_go_to_sleep(10);
+        ESP.restart();
     });
     ArduinoOTA.begin();
-    DEBUG_PRINTF("\n\nIoT Name Badge\nOTA update mode initialized.\n\n", "");
-    DEBUG_PRINTF("Wi-Fi network: %s\n", ssid);
-    ft_display_bitmap_with_refresh(badge_bitmap_ota_active);
-    message = "OTA mode activated. \n\nConnected to\n" + String(ssid);
-    message += "\n\nConnect to this Wi-Fi and use Arduino IDE";
-    message += "\n\nTo cancel the OTA update write any other command.";
-    bot.sendMessage(chat_id, message, "");
-    return (-2000);
 }
  

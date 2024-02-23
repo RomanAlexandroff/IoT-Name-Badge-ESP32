@@ -1,7 +1,7 @@
 /* ********************************************************************************************** */
 /*                                                                                                */
 /*   IoT  Name  Badge  ESP32-C3                                        :::::::::        :::       */
-/*   header.h                                                         :+:    :+:     :+: :+:      */
+/*   constants.h                                                      :+:    :+:     :+: :+:      */
 /*                                                                   +:+    +:+    +:+   +:+      */
 /*   By: Roman Alexandrov <r.aleksandroff@gmail.com>                +#++:++#:    +#++:++#++:      */
 /*                                                                 +#+    +#+   +#+     +#+       */
@@ -9,14 +9,14 @@
 /*   Updated: 2024/02/13 15:52:46                                ###    ###   ###     ###         */
 /*                                                                                                */
 /*                                                                                                */
-/*   Here you may find all the constants definitions.                                             */
+/*   Here you may find all the definitions exept for the credential constants.                    */
 /*                                                                                                */
 /* ********************************************************************************************** */
 
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define SOFTWARE_VERSION        3.03
+#define SOFTWARE_VERSION        3.04
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -32,8 +32,8 @@
 #define BATTERY_DEFAULT_MIN     367                                   // see ReadMe regarding this constant
 #define BATTERY_DEFAULT_COEFF   12.06                                 // see ReadMe regarding this constant
 #define CONNECT_TIMEOUT         5000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.
-#define WAIT_FOR_OTA_LIMIT      60                                    // in seconds
-#define WAIT_FOR_MESSAGES_LIMIT 80                                    // in seconds, 1 == 2 seconds (80 == 160 seconds == 2,5 minutes)
+#define WAIT_FOR_OTA_LIMIT      -2000                                 // how long to wait for OTA to begin (2000 == 1 hour 10 minutes)
+#define WAIT_FOR_MESSAGES_LIMIT 80                                    // how long to wait for new messages (80 == 2,5 minutes)
 #define SLEEP_DURATION          60000ul                               // in milliseconds
 #define HOME_SLEEP_TIME         1800000                               // in milliseconds, 30 minutes
 #define DEAD_BATTERY_SLEEP      7200000                               // in milliseconds, 2 HOURS

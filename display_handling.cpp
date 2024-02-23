@@ -40,7 +40,8 @@ void  IRAM_ATTR ft_display_animated_text_with_font(String output)               
         x -= 25;                                                                  // this value here controls the speed of movement
         if (x + tbw < 0)
             x = display.width();
-    } while (display.nextPage());
+    }
+    while (display.nextPage());
 }
 
 void  IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output)       // flickers, does NOT invert colours while running 
