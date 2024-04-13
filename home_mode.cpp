@@ -15,7 +15,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "header.h"
+#include "IoT-Name-Badge-ESP32.h"
 
 static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
 {
@@ -41,6 +41,8 @@ static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
         return (0);
     }
     *p_hour = time_info.tm_hour;
+    if (time_info.tm_isdst)
+        *p_hour = *p_hour - 1;
     *p_minute = time_info.tm_min;
     *p_week_day = time_info.tm_wday;
     WiFi.disconnect(true);

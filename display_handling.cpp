@@ -13,7 +13,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "header.h"
+#include "IoT-Name-Badge-ESP32.h"
 
 void  IRAM_ATTR ft_display_animated_text_with_font(String output)                 // flikers and inverts colours while running, animation doesn't work yet
 {
@@ -46,8 +46,8 @@ void  IRAM_ATTR ft_display_animated_text_with_font(String output)               
 
 void  IRAM_ATTR ft_display_bitmap_with_refresh(const unsigned char* output)       // flickers, does NOT invert colours while running 
 {
-    display.setRotation(1);
     display.setFullWindow();
+    display.setRotation(1);
     display.firstPage();
     do
     {

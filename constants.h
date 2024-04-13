@@ -16,7 +16,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define SOFTWARE_VERSION        3.04
+#define SOFTWARE_VERSION        3.03
 //#define PRIVATE                                                       // comment out this line to allow bot answer in any Telegram chat
 #define DEBUG                                                         // comment out this line to turn off Serial output
 #ifdef DEBUG
@@ -29,6 +29,7 @@
 #define EEPROM_SIZE             8                                     // stores 2 unsigned shorts with 2-bytes buffers behind each
 #define MAX_STATE_ADDR          0
 #define MIN_STATE_ADDR          4
+#define BATTERY_DEFAULT_MAX     1573                                  // see ReadMe regarding this constant
 #define BATTERY_DEFAULT_MIN     367                                   // see ReadMe regarding this constant
 #define BATTERY_DEFAULT_COEFF   12.06                                 // see ReadMe regarding this constant
 #define CONNECT_TIMEOUT         5000                                  // WiFi timeout per each AP, in milliseconds. Increase if cannot connect.

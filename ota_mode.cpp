@@ -18,7 +18,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "header.h"
+#include "IoT-Name-Badge-ESP32.h"
 
 void  ft_ota_init(String chat_id) 
 {
@@ -51,8 +51,6 @@ void  ft_ota_init(String chat_id)
         ft_delay(5000);
         ft_clear_display(true);
         display.powerOff();
-        ft_delay(500);
-        ESP.restart();
     });
     ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     });
