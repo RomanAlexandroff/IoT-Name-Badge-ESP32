@@ -20,13 +20,11 @@ WiFiMulti wifiMulti;
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
-RTC_DATA_ATTR unsigned short  g_cycle_counter;
-RTC_DATA_ATTR bool            g_eeprom_state;
+RTC_DATA_ATTR struct rtc_global_variables rtc_g;
 
 struct GlobalsManagement globals = {
     .reason = ESP_RST_UNKNOWN,
     .battery = 0,
     .reboot = false,
-    .ota = false
 };
  

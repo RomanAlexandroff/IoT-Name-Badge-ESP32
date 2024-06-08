@@ -18,6 +18,19 @@
 
 void  setup(void)
 {
+    #ifdef DEBUG
+        Serial.begin(115200);
+        DEBUG_PRINTF("\n\nDEVICE START\nversion %s\n", String(SOFTWARE_VERSION));
+    #endif
+    ft_spiffs_init();
+    ft_battery_init();
+    ft_display_init();
+    ft_power_down_recovery();
+    ft_ota_init();
+}
+
+void  loop(void)
+{
     long          cycle_length;
     volatile long run_time;
     unsigned int  time_of_sleep;
@@ -25,14 +38,7 @@ void  setup(void)
     cycle_length = 60000;
     run_time = 0;
     time_of_sleep = 0;
-    #ifdef DEBUG
-        Serial.begin(115200);
-        DEBUG_PRINTF("\n\nDEVICE START\nversion %f\n", float(SOFTWARE_VERSION));
-    #endif
-    ft_eeprom_init();
-    ft_battery_init();
-    ft_display_init();
-    ft_power_down_recovery();
+    ft_ota_waiting_loop();
     ft_battery_check();
     shall_I_start();
     ft_run_slideshow(&cycle_length);
@@ -43,6 +49,4 @@ void  setup(void)
     DEBUG_PRINTF("The device will sleep for %lu milliseconds\n", time_of_sleep);
     ft_go_to_sleep(time_of_sleep);
 }
-
-void  loop(void) { /* NOTHING IS HERE */ }
  

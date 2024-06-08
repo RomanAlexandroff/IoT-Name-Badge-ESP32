@@ -25,7 +25,7 @@ short IRAM_ATTR shall_I_start(void)
     unsigned int              time_of_sleep;
 
     WiFi.mode(WIFI_STA);
-    if (g_cycle_counter % 3 != 0)                               //check Wi-Fi only every 3rd cycle
+    if (rtc_g.cycle_counter % 3 != 0)                               //check Wi-Fi only every 3rd cycle
     {
         errase_display = true;
         return (1);

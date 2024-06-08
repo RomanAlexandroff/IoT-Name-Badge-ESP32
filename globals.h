@@ -29,15 +29,19 @@ extern GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)
 extern WiFiMulti wifiMulti;
 extern WiFiClientSecure client;
 extern UniversalTelegramBot bot;
-
-extern RTC_DATA_ATTR unsigned short g_cycle_counter;
-extern RTC_DATA_ATTR bool           g_eeprom_state;
+ 
+struct rtc_global_variables {
+    unsigned short  cycle_counter;
+    String          chat_id;
+    String          from_name;
+    bool            ota;
+};
+extern struct rtc_global_variables rtc_g;
 
 struct GlobalsManagement {
     esp_reset_reason_t reason;
     short              battery;
     bool               reboot;
-    bool               ota;
 };
 extern struct GlobalsManagement globals;
 

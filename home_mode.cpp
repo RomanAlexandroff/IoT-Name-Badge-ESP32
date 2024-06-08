@@ -60,7 +60,7 @@ unsigned int  ft_home_mode(bool* p_errase_display)
     time_of_sleep = HOME_SLEEP_TIME;
     ft_display_bitmap_with_refresh(badge_bitmap_home_mode);
     DEBUG_PRINTF("\nHome Mode initialised.\nBattery state: %d%%\n", globals.battery);
-    if (globals.battery <= 20)
+    if (globals.battery <= 10)
         ft_display_battery_state();
     else
         telegram_bot_init(WAIT_FOR_MESSAGES_LIMIT);
