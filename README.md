@@ -1,5 +1,4 @@
-[![Watch the video](https://img.icons8.com/clouds/100/000000/video.png)](https://drive.google.com/file/d/1KFF5MsTHPcJ7iEBFHzKupW02_JnMeZf-/view?usp=share_link)
-
+https://github.com/user-attachments/assets/a02f5e70-36db-49cc-8396-12023acea136
 # The IoT Name Badge
 
 ## About the Project
