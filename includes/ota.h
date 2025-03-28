@@ -27,7 +27,7 @@ void ft_ota_init(void)
             wifiMulti.run(CONNECT_TIMEOUT);
         if (wifiMulti.run(CONNECT_TIMEOUT) != WL_CONNECTED)
         {
-            DEBUG_PRINTF("\n[OTA] Failed to initialise OTA update due to Wi-Fi connection issues\n", "");
+            DEBUG_PRINTF("\n[OTA] Failed to initialise OTA update due to Wi-Fi connection issues\n");
             rtc_g.ota = false;
             ft_write_spiffs_file("/ota.txt", CLOSED);
             return;
@@ -45,7 +45,7 @@ void ft_ota_init(void)
                 bot.sendMessage(rtc_g.chat_id, "Updating...", "");
             })
             .onEnd([]() {
-                DEBUG_PRINTF("\n[OTA] End", "");
+                DEBUG_PRINTF("\n[OTA] End");
                 rtc_g.ota = false;
                 ft_write_spiffs_file("/ota.txt", CLOSED);
                 bot.sendMessage(rtc_g.chat_id, "Successfully updated!", "");
@@ -71,7 +71,7 @@ void ft_ota_init(void)
                 ft_delay(5000);
                 ft_clear_display(true);
             });
-        DEBUG_PRINTF("\n[OTA] Ready to update\n\n", "");
+        DEBUG_PRINTF("\n[OTA] Ready to update\n\n");
         bot.sendMessage(rtc_g.chat_id, "OTA Update is active", "");
         ArduinoOTA.begin();
     }
@@ -86,7 +86,7 @@ void ft_ota_waiting_loop(void)
             wifiMulti.run(CONNECT_TIMEOUT);
         if (wifiMulti.run(CONNECT_TIMEOUT) != WL_CONNECTED)
         {
-            DEBUG_PRINTF("\n[OTA] OTA update was canceled due to Wi-Fi connection issues\n", "");
+            DEBUG_PRINTF("\n[OTA] OTA update was canceled due to Wi-Fi connection issues\n");
             rtc_g.ota = false;
             ft_write_spiffs_file("/ota.txt", CLOSED);
             return;
@@ -94,14 +94,14 @@ void ft_ota_waiting_loop(void)
         while (rtc_g.ota && ota_limit < 1000)                                       // 1000 gives 5 minutes to perform OTA
         {
             ArduinoOTA.handle();
-            DEBUG_PRINTF("\n[OTA] Active", "");
+            DEBUG_PRINTF("\n[OTA] Active");
             ota_limit++;
             delay(300);
         }
         rtc_g.ota = false;
         ft_write_spiffs_file("/ota.txt", CLOSED);
         bot.sendMessage(rtc_g.chat_id, "OTA Update port closed", "");
-        DEBUG_PRINTF("\n[OTA] OTA Update port closed", "");
+        DEBUG_PRINTF("\n[OTA] OTA Update port closed");
     }
 }
 

@@ -13,7 +13,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 void  ft_power_down_recovery(void)
 {
@@ -30,7 +30,7 @@ void  ft_power_down_recovery(void)
             ft_display_bitmap_with_refresh(badge_bitmap_boot_up_screen);
             ft_files_restore();
             rtc_g.cycle_counter = 0;
-            DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n", "");
+            DEBUG_PRINTF("\nReset reason: Power-on or Brown-out reset\n");
             DEBUG_PRINTF("Power-down Recovery was performed.\nThe cycle counter was set to %d\n", rtc_g.cycle_counter);
             ft_delay(3000);
             ft_clear_display(true);
@@ -39,11 +39,11 @@ void  ft_power_down_recovery(void)
             rtc_g.cycle_counter++;
             if (rtc_g.cycle_counter >= 65004)
                 rtc_g.cycle_counter = 0;
-            DEBUG_PRINTF("\nReset reason: Software reset\n", "");
+            DEBUG_PRINTF("\nReset reason: Software reset\n");
             DEBUG_PRINTF("cycle number %d\n\n", rtc_g.cycle_counter);
             break;
         case ESP_RST_PANIC:
-            DEBUG_PRINTF("\nReset reason: Panic/exception reset\n", "");
+            DEBUG_PRINTF("\nReset reason: Panic/exception reset\n");
             break;
     }
 }

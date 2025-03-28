@@ -15,7 +15,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 short IRAM_ATTR shall_I_start(void)
 {
@@ -30,7 +30,7 @@ short IRAM_ATTR shall_I_start(void)
         errase_display = true;
         return (1);
     }
-    DEBUG_PRINTF("Starting WiFi scan...\n", "");
+    DEBUG_PRINTF("Starting WiFi scan...\n");
     WiFi.persistent(true);
     quantity = WiFi.scanNetworks(false, true);
     i = 0;
@@ -47,20 +47,20 @@ short IRAM_ATTR shall_I_start(void)
         {
             if (WiFi.SSID(i) == HOME_SSID)
             {
-                DEBUG_PRINTF("Home network detected. Going into Home mode\n", "");
+                DEBUG_PRINTF("Home network detected. Going into Home mode\n");
                 time_of_sleep = ft_home_mode(&errase_display);
                 errase_display = ft_clear_display(errase_display);
                 ft_go_to_sleep(time_of_sleep);
             }
             else if (WiFi.SSID(i) == OFFICE_SSID || WiFi.SSID(i) == UNIVERSITY_SSID || WiFi.SSID(i) == BACKUP_SSID)
             {
-                DEBUG_PRINTF("Familiar network detected. Initiating the slideshow\n", "");
+                DEBUG_PRINTF("Familiar network detected. Initiating the slideshow\n");
                 errase_display = true;
                 return (1);
             }
             i++;
         }
-        DEBUG_PRINTF("The detected networks were not on the list. Going to sleep.\n", "");
+        DEBUG_PRINTF("The detected networks were not on the list. Going to sleep.\n");
         errase_display = ft_clear_display(errase_display);
         ft_go_to_sleep(SLEEP_DURATION);
     }

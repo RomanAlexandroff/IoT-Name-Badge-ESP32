@@ -13,7 +13,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 void  IRAM_ATTR ft_display_animated_text_with_font(String output)                 // flikers and inverts colours while running, animation doesn't work yet
 {

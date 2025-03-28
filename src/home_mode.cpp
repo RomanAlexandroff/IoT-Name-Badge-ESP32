@@ -15,7 +15,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
 {
@@ -27,7 +27,7 @@ static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
     ft_wifi_list();
     if (!wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
-        DEBUG_PRINTF("Failed to obtain time due to Wi-Fi connection issues\n", "");
+        DEBUG_PRINTF("Failed to obtain time due to Wi-Fi connection issues\n");
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
@@ -35,7 +35,7 @@ static short ft_get_time(int* p_hour, int* p_minute, int* p_week_day)
     configTime(gmt_offset_sec, daylight_offset_sec, ntp_server);
     if(!getLocalTime(&time_info))
     {
-        DEBUG_PRINTF("Failed to obtain time from the NTP server\n", "");
+        DEBUG_PRINTF("Failed to obtain time from the NTP server\n");
         WiFi.disconnect(true);
         WiFi.mode(WIFI_OFF);
         return (0);
@@ -72,8 +72,8 @@ unsigned int  ft_home_mode(bool* p_errase_display)
         if (hour >= 0 && hour <= 5)
             time_of_sleep = (6 - hour) * 3600000 - (minute * 60000);
     }
-    DEBUG_PRINTS("\nFinal values:\nhour = %d\nminute = %d\ntime_of_sleep = %d\n\n", hour, minute, time_of_sleep, "");
-    DEBUG_PRINTF("Exiting Home Mode\n\n", "");
+    DEBUG_PRINTF("\nFinal values:\nhour = %d\nminute = %d\ntime_of_sleep = %d\n\n", hour, minute, time_of_sleep);
+    DEBUG_PRINTF("Exiting Home Mode\n\n");
     return (time_of_sleep);
 }
  

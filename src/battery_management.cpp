@@ -11,7 +11,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 short  ft_battery_check(void)
 {
@@ -33,7 +33,7 @@ short  ft_battery_check(void)
 
 void IRAM_ATTR ft_battery_init(void)
 {
-    adc1_config_width(ADC_WIDTH_12Bit);
-    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_11db);
+    adc1_config_width(ADC_WIDTH_BIT_12);
+    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_12);
 }
  

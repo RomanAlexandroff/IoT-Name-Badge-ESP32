@@ -20,7 +20,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 static short  IRAM_ATTR ft_answer_engine(String text)
 {
@@ -87,7 +87,7 @@ static short ft_new_messages(short numNewMessages)                              
     String  from_name;
 
     cycles = WAIT_FOR_MESSAGES_LIMIT;
-    DEBUG_PRINTF("\nHandling new messages\n", "");
+    DEBUG_PRINTF("\nHandling new messages\n");
     DEBUG_PRINTF("Number of messages to handle: %d\n", numNewMessages);
     for (short i = 0; i < numNewMessages; i++) 
     {
@@ -133,7 +133,7 @@ void  telegram_bot_init(short cycles)
     ft_wifi_list();
     if (wifiMulti.run(CONNECT_TIMEOUT) == WL_CONNECTED)
     {
-        DEBUG_PRINTF("\nTelegram bot initialised\n", "");
+        DEBUG_PRINTF("\nTelegram bot initialised\n");
         switch (globals.reason)
         {
             case ESP_RST_POWERON:
@@ -147,7 +147,7 @@ void  telegram_bot_init(short cycles)
         numNewMessages = ft_check_incomming_messages(cycles);
     }
     esp_wifi_set_mode(WIFI_MODE_NULL);
-    DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n", "");
+    DEBUG_PRINTF("Telegram bot has stopped. Wi-Fi is now OFF\n");
     if (globals.reboot)
         ESP.restart();
 }

@@ -10,7 +10,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "IoT-Name-Badge-ESP32.h"
+#include "../includes/IoT-Name-Badge-ESP32.h"
 
 short IRAM_ATTR  ft_write_spiffs_file(const char* file_name, String input)
 {
@@ -68,7 +68,7 @@ void IRAM_ATTR  ft_files_restore(void)
 {
     if (!LittleFS.exists("/ota.txt"))
     {
-        DEBUG_PRINTF("\n[FILE SYSTEM] The ota.txt file does not exist. Creating...\n", "");
+        DEBUG_PRINTF("\n[FILE SYSTEM] The ota.txt file does not exist. Creating...\n");
         ft_write_spiffs_file("/ota.txt", CLOSED);
         DEBUG_PRINTF("[FILE SYSTEM] ota.txt file created. The rtc_g.ota value is recorded as %d\n", ft_read_spiffs_file("/ota.txt").toInt() != 0);
     }
@@ -76,7 +76,7 @@ void IRAM_ATTR  ft_files_restore(void)
     DEBUG_PRINTF("[FILE SYSTEM] The rtc_g.ota variable has been set to %d\n", rtc_g.ota);
     if (!LittleFS.exists("/chat_id.txt"))
     {
-        DEBUG_PRINTF("\n[FILE SYSTEM] The chat_id.txt file does not exist. Creating...\n", "");
+        DEBUG_PRINTF("\n[FILE SYSTEM] The chat_id.txt file does not exist. Creating...\n");
         ft_write_spiffs_file("/chat_id.txt", CHAT_ID);
         DEBUG_PRINTF("[FILE SYSTEM] chat_id.txt file created. The rtc_g.chat_id value is recorded as %d\n", ft_read_spiffs_file("/chat_id.txt"));
     }
@@ -92,15 +92,15 @@ void IRAM_ATTR  ft_spiffs_init(void)
     i = 3;
     if (!LittleFS.begin(true) && i)
     {
-        DEBUG_PRINTF("\n[FILE SYSTEM] Failed to initialise SPIFFS. Retrying...\n", "");
+        DEBUG_PRINTF("\n[FILE SYSTEM] Failed to initialise SPIFFS. Retrying...\n");
         delay(1000);
         i--;
     }
     else
     {
-        DEBUG_PRINTF("\n[FILE SYSTEM] SPIFFS is successfully initialised.\n", "");
+        DEBUG_PRINTF("\n[FILE SYSTEM] SPIFFS is successfully initialised.\n");
         return;
     }
-    DEBUG_PRINTF("\n[FILE SYSTEM] SPIFFS was not initialised. Reading and Writing data is unavailable this session.\n", "");
+    DEBUG_PRINTF("\n[FILE SYSTEM] SPIFFS was not initialised. Reading and Writing data is unavailable this session.\n");
 }
  

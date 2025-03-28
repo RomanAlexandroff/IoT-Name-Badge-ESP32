@@ -13,7 +13,7 @@
 /*                                                                                                */
 /* ********************************************************************************************** */
 
-#include "globals.h"
+#include "../includes/globals.h"
 
 GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> display(GxEPD2_DRIVER_CLASS(SPI_SS_PIN, DC_PIN, RST_PIN, BUSY_PIN));
 WiFiMulti wifiMulti;
