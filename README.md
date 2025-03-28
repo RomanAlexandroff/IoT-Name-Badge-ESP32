@@ -1,4 +1,4 @@
-[Watch Video on Google Drive](https://drive.google.com/file/d/1KFF5MsTHPcJ7iEBFHzKupW02_JnMeZf-/view?usp=share_link)
+[![Watch the video](https://img.icons8.com/clouds/100/000000/video.png)](https://drive.google.com/file/d/1KFF5MsTHPcJ7iEBFHzKupW02_JnMeZf-/view?usp=share_link)
 
 # The IoT Name Badge
 
